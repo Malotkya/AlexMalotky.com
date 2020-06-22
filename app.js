@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 const express = require("express");
+const helmet = require("helmet");
 const fs = require("fs");
 
 const app = express();
@@ -17,6 +18,12 @@ const requests = [
 ];
 
 app.use( "/", express.static(publicDirectory) );
+
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'", "https://*.googleapis.com", "https://fonts.gstatic.com"]
+    }
+}))
 
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
