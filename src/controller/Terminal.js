@@ -5,7 +5,6 @@ class Terminal {
 
     all(request, responce) {
         responce.render("cmd");
-        responce.end();
     }
 }
 

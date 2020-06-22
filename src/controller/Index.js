@@ -5,7 +5,6 @@ class Index {
 
     get(req, res) {
         res.render("index");
-        res.end();
     }
 };
 
