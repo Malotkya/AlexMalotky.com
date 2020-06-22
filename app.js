@@ -17,17 +17,20 @@ const requests = [
     "all"
 ];
 
-app.use( "/", express.static(publicDirectory) );
-
+//Setting security using helmet
+app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'", "https://*.googleapis.com", "https://fonts.gstatic.com"]
     }
-}))
+}));
 
+//Set up resources for app
+app.use( "/", express.static(publicDirectory) );
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
 
+//Load servlets into app
 let servletDirectory = sourceDirectory + "/controller"
 let files = fs.readdirSync(servletDirectory);
 files.forEach(file => {
@@ -43,6 +46,7 @@ files.forEach(file => {
     }
 });
 
+//Launch app
 if( isNaN(port) ) {
     app.listen(defaultPort, () => console.log(`\nApplication is listening on port: ${defaultPort}!`) );
 } else {
