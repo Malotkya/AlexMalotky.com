@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee|Roboto+Mono|Source+Code+Pro&display=swap');
+/*
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'Source Code Pro', monospace;
+    font-family: 'Bungee', cursive;
+*/
+
+:root {
+    /*main*/
+  --background: #E0E9F5;
+  --text: #191514;
+
+    /*nav bar*/
+  --background-nav: #034CA0;
+  --background-nav-focus: #773175;
+  --text-nav: #ECFAFD;
+
+    /*alternate text*/
+  --background-alt: #262135;
+  --text-alt: #E8C5E6;
+  --text-alt-header: #03C2F9;
+
+    /*header-footer*/
+  --background-header: #021B48;
+  --text-header: #DFF3FB;
+  --text-header-alt: #773175;
+
+  /*links*/
+  --text-link: #023F92;
+
+  /*message colors*/
+  --text-err: #940000;
+  --background-err: #FFE5E5;
+
+  --text-good: #005C00;
+  --background-good: #DBFFDB;
+}

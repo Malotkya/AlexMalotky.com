@@ -1,0 +1,108 @@
+@import url("import/normalize.css");
+@import url("import/colorScheme.css");
+@import url("import/responsive.css");
+@import url("import/navBar.css");
+
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+
+body {
+  background-image: url("../img/background.jpg");
+  background-size: 100%;
+  background-repeat: repeat-y;
+  font-family: 'Roboto Mono', monospace;
+  margin: 0;
+}
+
+main {
+    background-color: var(--background);
+  padding: 0 !important;
+}
+
+header, footer {
+  background-color: var(--background-header);
+  color: var(--text-header);
+}
+
+footer a:link,
+footer a:visited {
+    color: var(--text-header);
+}
+
+header {
+  padding: 0 !important;
+}
+
+a:link, a:visited {
+  color: var(--text-link);
+}
+
+h1 {
+  font-family: 'Bungee', cursive;
+  margin: 0;
+  padding-left: 1%;
+  font-size: 2.5em;
+}
+
+form {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form input {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+form .half {
+    width: 45%;
+    display: inline-block;
+}
+
+form textarea {
+    max-width: 100%;
+    min-width: 100%;
+    margin-bottom: 5px;
+}
+
+aside {
+  background-color: var(--background-alt);
+  color: var(--text-alt);
+}
+
+aside h1, aside h2, aside h3
+aside h4, aside h5, aside h6 {
+    color: var(--text-alt-header);
+}
+
+[class*="message-"] {
+    text-align: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    font-family: 'Source Code Pro', monospace;
+}
+
+.message-error {
+    background-color: var(--background-err);
+    color: var(--text-err);
+}
+
+.message-success {
+    background-color: var(--background-good);
+    color: var(--text-good);
+}
+
+.icon {
+    width: 2em;
+    height: auto;
+}
