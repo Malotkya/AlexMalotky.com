@@ -1,0 +1,8 @@
+<section class="card">
+    <h3><%= job.location %></h3><span>
+        <%- include("formatDate", {date:job.startDate}) %> - <%- include("formatDate", {date:job.endDate}) %>
+    </span>
+    <hr />
+    <strong><%= job.title %></strong><span></span>
+    <p><%- job.description.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %></p>
+</section>

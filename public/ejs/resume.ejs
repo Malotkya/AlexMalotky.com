@@ -1,0 +1,20 @@
+<%- include("template/header.ejs", {title: "Alex's Resume"}); %>
+<main id="main" class="col-12">
+<% if(errMsg) { %>
+    <div class="message-error"><%= errMsg %></div>
+<% } else { %>
+    <article class="col-6 col-m-6">
+        <h2>Work</h2>
+        <% jobHistory.forEach( job => { %>
+            <%- include("resume/job.ejs", {job: job}); %>
+        <% }); %>
+    </article>
+    <article class="col-6 col-m-6">
+        <h2>School</h2>
+        <% schoolHistory.forEach( school => { %>
+            <%- include("resume/school.ejs", {school: school}); %>
+        <% }); %>
+    </article>
+<% } %>
+</main>
+<%- include("template/footer.ejs"); %>

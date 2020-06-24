@@ -1,7 +1,7 @@
-@import url("import/normalize.css");
-@import url("import/colorScheme.css");
-@import url("import/responsive.css");
-@import url("import/navBar.css");
+@import url("normalize.css");
+@import url("colorScheme.css");
+@import url("responsive.css");
+@import url("navBar.css");
 
 .hidden {
     position: absolute;
@@ -50,6 +50,12 @@ h1 {
   margin: 0;
   padding-left: 1%;
   font-size: 2.5em;
+}
+
+article h2 {
+    color: var(--text-header-alt);
+    font-family: 'Bungee', cursive;
+    text-align: center;
 }
 
 form {
@@ -105,4 +111,47 @@ aside h4, aside h5, aside h6 {
 .icon {
     width: 2em;
     height: auto;
+}
+
+article.imageRight figure {
+    float: right !important;
+}
+
+
+
+.card h3{
+    display: inline-block;
+    padding: 0;
+    width: 60%;
+    font-size: 1.2em;
+    margin: 0;
+    text-overflow: clip;
+}
+
+.card span{
+    display: inline-block;
+    font-size: .89em;
+    padding: 0;
+    text-align: right;
+    width:40%;
+}
+
+.card strong{
+    display: inline-block;
+    padding: 0;
+    width: 60%;
+}
+
+.card p{
+    padding-left: 5%;
+    padding-top: 5px;
+    margin: 0;
+    margin-bottom: 1em;
+    font-size: 1em;
+}
+
+.card {font-size: 70%}
+
+@media (min-width: 600px) {
+    .card {font-size: 100%}
 }
