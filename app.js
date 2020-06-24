@@ -31,16 +31,16 @@ app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
 
 //Load servlets into app
-let servletDirectory = sourceDirectory + "/controller"
-let files = fs.readdirSync(servletDirectory);
+let controllerDirectory = sourceDirectory + "/controller"
+let files = fs.readdirSync(controllerDirectory);
 files.forEach(file => {
     if( file.indexOf(".js") >= 0 ) {
-        let servlet = require(servletDirectory + "/" + file);
+        let controller = require(controllerDirectory + "/" + file);
 
         requests.forEach(httpRequest => {
-            if( typeof servlet[httpRequest] === "function" ) {
-                app[httpRequest](servlet.path, servlet[httpRequest]);
-                console.log(`${httpRequest} has been loaded for ${file} at location ${servlet.path}`);
+            if( typeof controller[httpRequest] === "function" ) {
+                app[httpRequest](controller.path, controller[httpRequest]);
+                console.log(`${httpRequest} has been loaded for ${file} at location ${controller.path}`);
             }
         });
     }
