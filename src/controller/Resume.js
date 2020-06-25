@@ -4,21 +4,18 @@ class Resume {
     }
 
     async get(req, res) {
-        let SchoolHistory = require('../dao/SchoolHistory.js');
-        let JobHistory = require('../dao/JobHistory.js');
+        let resumeDao = require("../dao/ResumeDao.js");
         let errorMessage = "";
         let schoolHistory = Array();
         let jobHistory = Array();
 
         try {
-            let sqlResponce = await new SchoolHistory().orderBy('graduated', 'DESC').fetchAll();
-            sqlResponce.models.forEach( obj => schoolHistory.push(obj.attributes) );
+            schoolHistory = await resumeDao.getAllSchoolHistory();
+            jobHistory = await resumeDao.getAllJobHistory();
 
-            sqlResponce = await new JobHistory().orderBy('startDate', 'DESC').fetchAll()
-            sqlResponce.models.forEach( obj => jobHistory.push(obj.attributes) );
         } catch (error) {
             console.error(error);
-            errorMessage = JSON.stringify(error);
+            errorMessage = "There was a problem connecting to the database!";
         }
 
         res.render("resume", {
