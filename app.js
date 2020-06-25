@@ -3,6 +3,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const session = require("express-session");
+//const bodyParser = require("body-parser");
 const fs = require("fs");
 
 const app = express();
@@ -30,8 +31,13 @@ app.use(helmet.contentSecurityPolicy({
 app.use( "/", express.static(publicDirectory) );
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
+//app.use(bodyParser);
 
-app.use( session({secret:'supercalifragilisticexpialidocious'}) );
+app.use( session({
+    secret:'supercalifragilisticexpialidocious',
+    resave: false,
+    saveUninitialized: false
+}) );
 
 //Load servlets into app
 let controllerDirectory = sourceDirectory + "/controller"
