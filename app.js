@@ -2,6 +2,7 @@
 
 const express = require("express");
 const helmet = require("helmet");
+const session = require("express-session");
 const fs = require("fs");
 
 const app = express();
@@ -30,6 +31,8 @@ app.use( "/", express.static(publicDirectory) );
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
 
+app.use( session({secret:'supercalifragilisticexpialidocious'}) );
+
 //Load servlets into app
 let controllerDirectory = sourceDirectory + "/controller"
 let files = fs.readdirSync(controllerDirectory);
@@ -45,6 +48,17 @@ files.forEach(file => {
         });
     }
 });
+
+//Error Handeling
+app.use((req, res) => res.status(400).render('error', {
+    message:"404: the page you where looking for was not found!",
+    title:"404 Error"
+}) );
+
+app.use((error, req, res, next) => res.status(500).render('error', {
+    message:JSON.stringify(error),
+    title:"500 Internal Error"
+}) );
 
 //Launch app
 if( isNaN(port) ) {
