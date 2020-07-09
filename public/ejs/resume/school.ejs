@@ -1,6 +1,24 @@
 <section class="card">
-    <h3><%=school.name%></h3><span><%- include("formatDate", {date:school.graduated}) %></span>
-    <hr />
-    <strong><%=school.degree%></strong><span>GPA: <%=school.gpa%></span>
-    <p><%=school.comments%></p>
+    <div class="card-header">
+        <h3><%=school.name%></h3><span>
+            <%- include("formatDate", {date:school.graduated}) %>
+        </span>
+    </div>
+    <div class="card-body">
+        <%
+            if(school.degree) { %>
+                <strong class="d-block w-100"><%=school.degree%></strong>
+            <% }
+        %>
+        <span>GPA: <%=school.gpa%></span>
+        <%
+            if(school.comments) { %>
+                <hr />
+                <p class="card-text">
+                    <%- school.comments.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
+                </p>
+            <% }
+        %>
+
+    </div>
 </section>

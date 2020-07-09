@@ -1,8 +1,14 @@
 <section class="card">
-    <h3><%= job.location %></h3><span>
-        <%- include("formatDate", {date:job.startDate}) %> - <%- include("formatDate", {date:job.endDate}) %>
-    </span>
-    <hr />
-    <strong><%= job.title %></strong><span></span>
-    <p><%- job.description.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %></p>
+    <div class="card-header">
+        <h3 class="card-title"><%= job.location %></h3><span>
+            <%- include("formatDate", {date:job.startDate}) %> - <%- include("formatDate", {date:job.endDate}) %>
+        </span>
+    </div>
+    <div class="card-body">
+        <strong><%= job.title %></strong>
+        <hr />
+        <p class="card-text">
+            <%- job.description.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
+        </p>
+    </div>
 </section>
