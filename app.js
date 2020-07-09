@@ -3,7 +3,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const session = require("express-session");
-//const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const fs = require("fs");
 
 const app = express();
@@ -36,7 +36,8 @@ app.use(helmet.contentSecurityPolicy({
 app.use( "/", express.static(publicDirectory) );
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
-//app.use(bodyParser);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use( session({
     secret:'supercalifragilisticexpialidocious',
@@ -66,10 +67,13 @@ app.use((req, res) => res.status(400).render('error', {
     title:"404 Error"
 }) );
 
-app.use((error, req, res, next) => res.status(500).render('error', {
-    message:JSON.stringify(error),
-    title:"500 Internal Error"
-}) );
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).render('error', {
+        message:JSON.stringify(error),
+        title:"500 Internal Error"
+    });
+} );
 
 //Launch app
 if( isNaN(port) ) {
