@@ -23,7 +23,12 @@ const requests = [
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
-        defaultSrc: ["'self'", "https://*.googleapis.com", "https://fonts.gstatic.com"]
+        defaultSrc: ["'self'",
+                     "https://*.googleapis.com",
+                     "https://fonts.gstatic.com",
+                     "cdnjs.cloudflare.com",
+                     "maxcdn.bootstrapcdn.com"
+                 ]
     }
 }));
 
