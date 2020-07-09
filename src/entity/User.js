@@ -1,16 +1,9 @@
 const database = require('../util/database.js');
-const password = require('../util/password.js');
 
 module.exports = database.model('User', {
     tableName: 'user',
     roles() {
-        return this.belongsToMany('Roles');
-    }
-    setPassword(string) {
-        this.password = password.hash(string);
-    }
-    comparePassword(string) {
-        return password.compare(string, this.password);
+        return this.belongsToMany('Role', 'user_role', 'user_id', 'role_id');
     }
 });
 

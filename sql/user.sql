@@ -34,5 +34,14 @@ VALUES('Blogger');
 INSERT INTO user(email, password)
 VALUES('root', '$2a$10$HylEyU5lpYe.JhG6r5oSS.roQWexP50t0BcReTbih.jQNvoAaKvYK');
 
+INSERT INTO user(email, password)
+VALUES('ajmalotky', '$2a$10$HylEyU5lpYe.JhG6r5oSS.roQWexP50t0BcReTbih.jQNvoAaKvYK');
+
 INSERT INTO user_role(user_id, role_id)
 VALUES(1,1);
+
+INSERT INTO user_role(user_id, role_id)
+VALUES(1,2);
+
+INSERT INTO user_role(user_id, role_id)
+VALUES(2,2);

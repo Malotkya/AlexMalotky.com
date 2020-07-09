@@ -1,32 +1,21 @@
-//import {getUser, postUser} from "../util/user.js";
-
 class Admin {
     constructor() {
         this.path = "/Admin";
     }
 
-
-
     async get(req, res) {
         if(req.session.user) {
-            res.render("admin");
-        } else {
-            res.render("login")
-        }
-    }
-
-    async post(req, res) {
-        try {
-            let user = null; //await postUser(req, res);
-
-            if(user == null) {
-                res.render("login", {errMsg:"Username or Password are incorect!",
-                                     username:req.body.username});
+            if(req.session.user.roles.includes("Admin")) {
+                res.render("admin", {user:req.session.user});
             } else {
-                res.render("admin", {user:user});
+                res.render("error", {
+                    title:"Access Denied!",
+                    message:"You must be logged in as an admin to access this page."
+                });
             }
-        } catch (error) {
-            res.render("error", {message: JSON.stringify(error)})
+
+        } else {
+            res.render("login", {callback:"/Admin"});
         }
     }
 }
