@@ -6,7 +6,11 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" class="form-control"/>
         <a href="/Signup">Sign Up Here</a> <br />
-        <input type="hidden" value="<%= callback %>" name="callback" />
+        <input type="hidden" value="<%
+            if(typeof callback != "undefined") { %>
+                <%=callback%>
+            <% }
+         %>" name="callback" />
         <input type="submit" value="Login" class="btn btn-primary"/>
     </form>
 </main>
