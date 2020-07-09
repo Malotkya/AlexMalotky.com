@@ -1,35 +1,38 @@
-<nav class="row" aria-label="Main Navigation">
-  <!--I might animate the menu icon later-->
-  <button class="nav-icon">
-    <div></div>
-    <div></div>
-    <div></div>
-  </button>
+<nav aria-label="Main Navigation" class="navbar navbar-expand-md bg-dark">
+    <h1 class="navbar-brand text-white">
+        <a href="/">
+            AlexMalotky.com
+        </a>
+    </h1>
 
-  <!-- Main Menu Bar -->
-  <ul class="nav-bar">
-    <!-- Home Button -->
-    <li class="col-2 col-m-2 nav-item"><a href="/">Home</a></li>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Main Menu Bar -->
+    <ul class="navbar-nav" id="collapsibleNavbar">
+        <!-- Resume -->
+        <li class="nav-item">
+            <a class="nav-link" href="/Resume">Resume</a>
+        </li>
 
-    <!-- Resume -->
-    <li class="col-2 col-m-2 nav-item"><a href="/Resume">Resume</a></li>
+        <!-- Site Progression -->
+        <li class="nav-item">
+            <a class="nav-link" href="/About">About</a>
+        </li>
 
-    <!-- Site Progression -->
-    <li class="col-2 col-m-2 nav-item"><a href="/About">About</a></li>
+        <!-- Node.js Apps -->
+        <!--The blog is still under development-->
+        <!--<li class="nav-item">
+            <a href="blog.php">Blog</a>
+        </li> -->
 
-    <!-- Blog -->
-    <!--The blog is still under development-->
-    <!--<li class="col-2 col-m-2 nav-item">
-        <a href="blog.php">Blog</a>
-    </li> -->
-
-    <!-- Command Line Test Page -->
-    <li class="col-2 col-m-2 nav-item">
-        <a href="#">Javascript Apps</a>
-        <ul class="h-2 h-s-6" aria-haspopup="true">
-          <li class="nav-item"><a href="/cmd" target="#">Terminal</a></li>
-          <li class="nav-item"><a href="/dice">Dice</a></li>
-        </ul>
-    </li>
-  </ul>
+        <!-- Javascript Apps -->
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Javascript Apps</a>
+            <ul class="dropdown-menu bg-dark" aria-haspopup="true">
+                <li class="dropdown-item"><a href="/cmd" target="#" class="nav-link">Terminal</a></li>
+                <li class="dropdown-item"><a href="/dice" class="nav-link">Dice</a></li>
+            </ul>
+        </li>
+    </ul>
 </nav>
