@@ -1,7 +1,17 @@
-@import url("normalize.css");
-@import url("colorScheme.css");
-@import url("responsive.css");
-@import url("navBar.css");
+@import url('https://fonts.googleapis.com/css?family=Bungee|Source+Code+Pro&display=swap');
+/*
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'Source Code Pro', monospace;
+    font-family: 'Bungee', cursive;
+*/
+
+@font-face {
+  font-family: 'Roboto Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/RobotoMono-Regular.ttf);
+}
 
 .hidden {
     position: absolute;
@@ -14,98 +24,11 @@
     border: 0;
 }
 
-body {
-  background-image: url("../img/background.jpg");
-  background-size: 100%;
-  background-repeat: repeat-y;
-  font-family: 'Roboto Mono', monospace;
-  margin: 0;
-}
-
-main {
-    background-color: var(--background);
-  padding: 0 !important;
-}
-
-header, footer {
-  background-color: var(--background-header);
-  color: var(--text-header);
-}
-
-footer a:link,
-footer a:visited {
-    color: var(--text-header);
-}
-
-header {
-  padding: 0 !important;
-}
-
-a:link, a:visited {
-  color: var(--text-link);
-}
-
-h1 {
-  font-family: 'Bungee', cursive;
-  margin: 0;
-  padding-left: 1%;
-  font-size: 2.5em;
-}
-
-article h2 {
-    color: var(--text-header-alt);
-    font-family: 'Bungee', cursive;
-    text-align: center;
-}
-
-form {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-form input {
-    width: 100%;
-    margin-bottom: 5px;
-}
-
-form .half {
-    width: 45%;
-    display: inline-block;
-}
-
-form textarea {
-    max-width: 100%;
-    min-width: 100%;
-    margin-bottom: 5px;
-}
-
-aside {
-  background-color: var(--background-alt);
-  color: var(--text-alt);
-}
-
-aside h1, aside h2, aside h3
-aside h4, aside h5, aside h6 {
-    color: var(--text-alt-header);
-}
-
-[class*="message-"] {
-    text-align: center;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 5px;
-    font-family: 'Source Code Pro', monospace;
-}
-
-.message-error {
-    background-color: var(--background-err);
-    color: var(--text-err);
-}
-
-.message-success {
-    background-color: var(--background-good);
-    color: var(--text-good);
+.nav-icon div {
+  width: 35px;
+  height: 5px;
+  background-color: rgba(255,255,255,.5);
+  margin: 6px;
 }
 
 .icon {
@@ -113,45 +36,14 @@ aside h4, aside h5, aside h6 {
     height: auto;
 }
 
-article.imageRight figure {
-    float: right !important;
+body {
+  /*background-image: url("../img/background.jpg");*/
+  background-size: 100%;
+  background-repeat: repeat-y;
+  font-family: 'Roboto Mono', monospace;
+  margin: 0;
 }
 
-
-
-.card h3{
-    display: inline-block;
-    padding: 0;
-    width: 60%;
-    font-size: 1.2em;
-    margin: 0;
-    text-overflow: clip;
-}
-
-.card span{
-    display: inline-block;
-    font-size: .89em;
-    padding: 0;
-    text-align: right;
-    width:40%;
-}
-
-.card strong{
-    display: inline-block;
-    padding: 0;
-    width: 60%;
-}
-
-.card p{
-    padding-left: 5%;
-    padding-top: 5px;
-    margin: 0;
-    margin-bottom: 1em;
-    font-size: 1em;
-}
-
-.card {font-size: 70%}
-
-@media (min-width: 600px) {
-    .card {font-size: 100%}
+figure img{
+    width: 100%;
 }
