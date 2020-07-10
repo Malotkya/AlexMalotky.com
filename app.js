@@ -36,7 +36,7 @@ app.use(helmet.contentSecurityPolicy({
 app.use( "/", express.static(publicDirectory) );
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use( session({

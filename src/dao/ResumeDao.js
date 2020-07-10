@@ -11,6 +11,11 @@ class ResumeDao {
     }
 
     async updateSchool(id, name, degree, gpa, graduated, comments) {
+        if(isNaN(gpa) || gpa == '')
+            gpa = 0;
+        if(typeof graduated == 'string')
+            graduated = new Date(graduated);
+
         let school = new SchoolHistory({
             id:id,
             name:name,
@@ -22,7 +27,12 @@ class ResumeDao {
         school.save();
     }
 
-    async addNewSchool(name, degree, gpa, graduated, comments) {
+    async insertSchool(name, degree, gpa, graduated, comments) {
+        if(isNaN(gpa) || gpa == '')
+            gpa = 0;
+        if(typeof graduated == 'string')
+            graduated = new Date(graduated);
+
         let school = new SchoolHistory({
             name:name,
             degree:degree,
@@ -30,7 +40,12 @@ class ResumeDao {
             graduated:graduated,
             comments:comments
         });
+        console.log(school);
         school.save(null, {method:"insert"});
+    }
+
+    async deleteSchool(id) {
+        new SchoolHistory({id:id}).destroy();
     }
 
     async getAllJobHistory() {
@@ -40,7 +55,12 @@ class ResumeDao {
         return output;
     }
 
-    async updateJob(id, title, location,startDate, endDate, description) {
+    async updateJob(id, title, location, startDate, endDate, description) {
+        if(typeof startDate == 'string')
+            startDate = new Date(startDate);
+        if(typeof endDate == 'string')
+            endDate = new Date(endDate);
+
         let job = new JobHistory({
             id:id,
             title:title,
@@ -52,7 +72,12 @@ class ResumeDao {
         job.save();
     }
 
-    async addNewJob(title, location,startDate, endDate, description) {
+    async insertJob(title, location,startDate, endDate, description) {
+        if(typeof startDate == 'string')
+            startDate = new Date(startDate);
+        if(typeof endDate == 'string')
+            endDate = new Date(endDate);
+            
         let job = new JobHistory({
             title:title,
             location:location,
@@ -60,7 +85,12 @@ class ResumeDao {
             endDate:endDate,
             description:description
         });
+        console.log(job);
         job.save(null, {method:"insert"});
+    }
+
+    async deleteJob(id) {
+        new JobHistory({id:id}).destroy();
     }
 }
 

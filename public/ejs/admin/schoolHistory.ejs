@@ -1,0 +1,41 @@
+<div class="row">
+<div class="col-sm-6">
+<% history.forEach(school => { %>
+    <section class="card" id="school<%=school.id%>">
+        <div class="card-header row">
+            <div class='col-9'>
+                <h3 class="name"><%=school.name%></h3>
+                <span class="graduated"><%=school.graduated%></span>
+            </div>
+            <div class='col-3'>
+                <button class="editSchool btn btn-success w-100" schoolID="<%=school.id%>">Edit</button>
+                <button class="deleteSchool btn btn-danger w-100" schoolID="<%=school.id%>">Delete</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <strong class="d-block w-100 degree"><%=school.degree%></strong>
+            GPA: <span class="gpa"><%=school.gpa%></span>
+            <hr />
+            <p class="card-text comments">
+                <%- school.comments.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
+            </p>
+        </div>
+    </section>
+<% }); %>
+</div>
+<form class="col-sm-6" id="schoolForm">
+    <label for="name">School Name:</label>
+    <input type="text" class="form-control" id="name" name="name">
+    <label for="degree">Degree:</label>
+    <input type="text" class="form-control" id="degree" name="degree">
+    <label for="gpa">GPA:</label>
+    <input type="number" class="form-control" id="gpa" name="gpa" min="0.00" max="4.00" step="0.01">
+    <label for="graduated">Graduation Date:</label>
+    <input type="date" class="form-control" id="graduated" name="graduated">
+    <label for="comments">Additional Comments:</label>
+    <textarea class="form-control" name="comments" id="comments"></textarea>
+    <input class="btn btn-primary" type="submit" id="submitSchool" value="Add New School" />
+    <input class="btn btn-secondary" type="reset" value="Reset" />
+    <input type="hidden" name="schoolId" id="schoolId" />
+</form>
+</div>

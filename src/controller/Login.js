@@ -12,9 +12,9 @@ class Login {
     async post(req, res) {
         let userDao = require("../dao/UserDao.js");
 
-        let username = req.body.username;
-        let password = req.body.password;
-        let forward = req.body.callback;
+        let username = req.body.username.trim();
+        let password = req.body.password.trim();
+        let forward = req.body.callback.trim();
 
         try {
             let responce = await userDao.getByUserName(username);

@@ -1,5 +1,28 @@
 <%- include("template/header.ejs", {title: 'Alex Malotky'}); %>
 <main id="main" class="col-12">
-    <%= JSON.stringify(user) %>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="pill" href="#jobHistory">Job History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#schoolHistory">School History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#blog">Blog</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane container active" id="jobHistory">
+            <%- include("admin/jobHistory.ejs", {history:jobHistory}) %>
+        </div>
+        <div class="tab-pane container fade" id="schoolHistory">
+            <%- include("admin/schoolHistory.ejs", {history:schoolHistory}) %>
+        </div>
+        <div class="tab-pane container fade" id="blog">
+            <h1>Comming Soon</h1>
+        </div>
+    </div>
 </main>
+<script src="/js/admin.js" charset="utf-8"></script>
 <%- include("template/footer.ejs") %>
