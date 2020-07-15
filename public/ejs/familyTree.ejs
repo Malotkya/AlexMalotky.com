@@ -1,5 +1,51 @@
 <%- include("template/header.ejs", {title: 'Alex Malotky'}); %>
+<link rel="stylesheet" href="/css/tree.css">
 <main id="main" class="row">
-    <h1>This will go here!</h1>
+    <!--
+    We will create a family tree using just CSS(3)
+    The markup will be simple nested lists
+    -->
+    <section class="tree col-12">
+    	<ul>
+    		<li>
+    			<a href="#">Parent</a>
+    			<ul>
+    				<li>
+    					<a href="#">Child</a>
+    					<ul>
+    						<li>
+    							<a href="#">Grand Child</a>
+    						</li>
+    					</ul>
+    				</li>
+    				<li>
+    					<a href="#">Child</a>
+    					<ul>
+    						<li><a href="#">Grand Child</a></li>
+    						<li>
+    							<a href="#">Grand Child</a>
+    							<ul>
+    								<li>
+    									<a href="#">Great Grand Child</a>
+    								</li>
+    								<li>
+    									<a href="#">Great Grand Child</a>
+    								</li>
+    								<li>
+    									<a href="#">Great Grand Child</a>
+    								</li>
+    							</ul>
+    						</li>
+    						<li><a href="#">Grand Child</a></li>
+    					</ul>
+    				</li>
+    			</ul>
+    		</li>
+    	</ul>
+    </section>
+    <section class="col-12">
+        The family tree css code is base on an example that can be found
+        <a href="https://codepen.io/Pestov/pen/BLpgm" target="#">here</a>.
+    </section>
 </main>
 <%- include("template/footer.ejs") %>
