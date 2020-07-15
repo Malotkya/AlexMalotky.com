@@ -15,14 +15,12 @@
         </div>
         <div class="card-body">
             <strong class="d-block w-100 title"><%=job.title%></strong>
-            <%
-                if(job.text) { %>
-                    <hr />
-                    <p class="card-text text">
-                        <%- job.text.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
-                    </p>
-                <% }
-            %>
+                <hr />
+                <p class="card-text description">
+                    <% if(job.description) { %>
+                        <%- job.description.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
+                    <% } %>
+                </p>
         </div>
     </section>
 <% }); %>
@@ -33,11 +31,11 @@
     <label for="title">Job Title:</label>
     <input type="text" class="form-control" id="title" name="title">
     <label>Date's Worked:</label><br />
-    <input type="date" class="form-control w-50 d-inline-block" id="startDate" name="startDate">
-    <input type="date" class="form-control w-50 d-inline-block" id="endDate" name="endDate"><br />
+    <input type="date" class="form-control w-25 d-inline-block" id="startDate" name="startDate"> &mdash;
+    <input type="date" class="form-control w-25 d-inline-block" id="endDate" name="endDate"><br />
     <label for="description">Description:</label>
     <textarea class="form-control" name="description" id="description"></textarea>
-    <input class="btn btn-primary" type="submit" id="submitSchool" value="Add New School" />
+    <input class="btn btn-primary" type="submit" id="submitJob" value="Add New Job" />
     <input class="btn btn-secondary" type="reset" value="Reset" />
     <input type="hidden" name="jobId" id="jobId" />
 </form>
