@@ -76,9 +76,9 @@ class Admin {
             }
 
             res.status(200).send("Sucess").end();
-        }
-    } else {
+        } else {
         res.redirect('/Error')
+        }
     }
 }
 
