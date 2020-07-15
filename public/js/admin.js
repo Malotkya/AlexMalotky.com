@@ -16,7 +16,7 @@ const init = () => {
     });
 
     document.querySelector("#schoolForm").addEventListener("submit", sendSchool);
-
+    document.querySelector("#jobForm").addEventListener("submit", sendJob);
 
 }; window.onload = init;
 
@@ -39,10 +39,16 @@ const editSchool = event => {
     let target = document.querySelector(`#school${id}`);
     let form = document.querySelector("#schoolForm");
 
+    let buffer = target.querySelector(".graduated").innerText;
+    if( buffer == "") {
+        form.querySelector("#graduated").value = "";
+    } else {
+        form.querySelector("#graduated").value = new Date(buffer).toISOString().split('T')[0];
+    }
+
     form.querySelector("#name").value = target.querySelector(".name").innerText;
     form.querySelector("#degree").value = target.querySelector(".degree").innerText;
     form.querySelector("#gpa").value = target.querySelector(".gpa").innerText;
-    form.querySelector("#graduated").value = new Date(target.querySelector(".graduated").innerText);
     form.querySelector("#comments").value = target.querySelector(".comments").innerText;
     form.querySelector("#schoolId").value = id;
     form.querySelector("#submitSchool").value = "Edit School";
@@ -51,15 +57,33 @@ const editSchool = event => {
 const editJob = event => {
     let id = event.target.attributes.jobid.nodeValue;
     let target = document.querySelector(`#job${id}`);
+    let form = document.querySelector("#jobForm");
 
-    console.log("Edit: " + target.querySelector(".location").innerText);
+    let buffer = target.querySelector(".startDate").innerText;
+    if(buffer == "") {
+        form.querySelector("#startDate").value = "";
+    } else {
+        form.querySelector("#startDate").value = new Date(buffer).toISOString().split('T')[0];
+    }
+
+    buffer = target.querySelector(".endDate").innerText;
+    if(buffer == "") {
+        form.querySelector("#endDate").value = "";
+    } else {
+        form.querySelector("#endDate").value = new Date(buffer).toISOString().split('T')[0];
+    }
+
+
+    form.querySelector("#location").value = target.querySelector(".location").innerText;
+    form.querySelector("#title").value = target.querySelector(".title").innerText;
+    form.querySelector("#description").value = target.querySelector(".description").innerText;
+    form.querySelector("#jobId").value = id;
+    form.querySelector("#submitJob").value = "Edit Job";
 }
 
 const sendSchool = event => {
     let form = event.target;
     event.preventDefault();
-
-    let formData = new FormData(form);
 
     let body = {
         id: form.querySelector("#schoolId").value,
@@ -83,6 +107,37 @@ const sendSchool = event => {
             throw new Error(responce.body);
 
         window.location.replace("/Admin/School");
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+const sendJob = event => {
+    let form = event.target;
+    event.preventDefault();
+
+    let body = {
+        id: form.querySelector("#jobId").value,
+        location: form.querySelector("#location").value,
+        startDate: form.querySelector("#startDate").value,
+        endDate: form.querySelector("#endDate").value,
+        title: form.querySelector("#title").value,
+        description: form.querySelector("#description").value
+    };
+
+    let action = "Update";
+    if(body.id == "")
+        action = "New";
+
+    fetch(`/Admin/Job/${action}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        body: JSON.stringify(body)
+    }).then(responce => {
+        if( !responce.ok )
+            throw new Error(responce.body);
+
+        window.location.replace("/Admin/Job");
     }).catch(error => {
         console.error(error);
     });
