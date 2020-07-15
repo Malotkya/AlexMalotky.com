@@ -24,14 +24,40 @@ const deleteSchool = event => {
     let id = event.target.attributes.schoolid.nodeValue;
     let target = document.querySelector(`#school${id}`);
 
-    console.log("Delete: " + target.querySelector(".name").innerText);
+    if( confirm(`Are you sure you want to delete: ${target.querySelector(".name").innerText}`) ) {
+        fetch("/Admin/School/Delete", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            body: JSON.stringify({id:id})
+        }).then(responce => {
+            if( !responce.ok )
+                throw new Error(responce.body);
+
+            window.location.replace("/Admin/School");
+        }).catch(error => {
+            console.error(error);
+        });
+    }
 }
 
 const deleteJob = event => {
     let id = event.target.attributes.jobid.nodeValue;
     let target = document.querySelector(`#job${id}`);
 
-    console.log("Delete: " + target.querySelector(".location").innerText);
+    if( confirm(`Are you sure you want to delete: ${target.querySelector(".location").innerText}`) ) {
+        fetch("/Admin/Job/Delete", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            body: JSON.stringify({id:id})
+        }).then(responce => {
+            if( !responce.ok )
+                throw new Error(responce.body);
+
+            window.location.replace("/Admin/Job");
+        }).catch(error => {
+            console.error(error);
+        });
+    }
 }
 
 const editSchool = event => {
