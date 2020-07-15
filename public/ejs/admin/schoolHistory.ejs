@@ -17,7 +17,9 @@
             GPA: <span class="gpa"><%=school.gpa%></span>
             <hr />
             <p class="card-text comments">
-                <%- school.comments.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
+                <% if(school.comments) { %>
+                    <%- school.comments.replace(/(?:\r\n|\r|\n)/g, '<br\>'); %>
+                <% } %>
             </p>
         </div>
     </section>
