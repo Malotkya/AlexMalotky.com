@@ -55,7 +55,6 @@ files.forEach(file => {
         requests.forEach(httpRequest => {
             if( typeof controller[httpRequest] === "function" ) {
                 app[httpRequest](controller.path, controller[httpRequest]);
-                console.log(`${httpRequest} has been loaded for ${file} at location ${controller.path}`);
             }
         });
     }
