@@ -2,3 +2,5 @@
 /package-lock.json
 /src/util/database.js
 /src/util/password.js
+
+test.js
