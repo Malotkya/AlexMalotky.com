@@ -5,47 +5,17 @@
     We will create a family tree using just CSS(3)
     The markup will be simple nested lists
     -->
-    <section class="tree col-12">
-    	<ul>
-    		<li>
-    			<a href="#">Parent</a>
-    			<ul>
-    				<li>
-    					<a href="#">Child</a>
-    					<ul>
-    						<li>
-    							<a href="#">Grand Child</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    					<a href="#">Child</a>
-    					<ul>
-    						<li><a href="#">Grand Child</a></li>
-    						<li>
-    							<a href="#">Grand Child</a>
-    							<ul>
-    								<li>
-    									<a href="#">Great Grand Child</a>
-    								</li>
-    								<li>
-    									<a href="#">Great Grand Child</a>
-    								</li>
-    								<li>
-    									<a href="#">Great Grand Child</a>
-    								</li>
-    							</ul>
-    						</li>
-    						<li><a href="#">Grand Child</a></li>
-    					</ul>
-    				</li>
-    			</ul>
-    		</li>
-    	</ul>
+    <section class="tree col-sm-9">
+        <ul>
+            <%- include("tree/familyMember.ejs", {parent:parent}); %>
+        </ul>
     </section>
-    <section class="col-12">
+    <aside class="col-sm-3">
+        <%- include("tree/form.ejs") %>
+    </aside>
+    <div class="col-12">
         The family tree css code is base on an example that can be found
         <a href="https://codepen.io/Pestov/pen/BLpgm" target="#">here</a>.
-    </section>
+    </div>
 </main>
 <%- include("template/footer.ejs") %>

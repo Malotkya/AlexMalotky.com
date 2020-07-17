@@ -1,0 +1,13 @@
+<li>
+    <a href="#">
+        <span><%= parent.name %></span>
+        <figure><%= parent.picture %></figure>
+    </a>
+    <% if(parent.children.length > 0) { %>
+        <ul>
+            <% parent.children.forEach(child => { %>
+                <%- include("familyMember", {parent:child}); %>
+            <% }) %>
+        </ul>
+    <% } %>
+</li>

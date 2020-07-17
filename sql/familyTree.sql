@@ -1,27 +1,22 @@
 use AlexMalotky_Com;
 
-DROP TABLE FamilyConnections;
-DROP TABLE FamilyMember;
+DROP TABLE familyMember;
 
-CREATE TABLE FamilyMember (
+CREATE TABLE familyMember (
 	id INT AUTO_INCREMENT,
     name varchar(50),
     picture varchar(20),
-    connection_id INT,
-    constraint primary key(id)
+    parent_id INT,
+    constraint primary key(id),
+    constraint foreign key(parent_id) references familyMember(id)
 );
 
-CREATE TABLE FamilyConnections (
-	id INT AUTO_INCREMENT,
-    first_person INT,
-    second_person INT,
-    constraint primary key(id, first_person, second_person),
-    constraint foreign key(first_person) references FamilyMember(id),
-    constraint foreign key(first_person) references FamilyMember(id)
-);
+INSERT INTO familyMember(name) VALUES ('Alex & Passion Malotky');
+INSERT INTO familyMember(name, parent_id) VALUES ('Child 1', 1);
+INSERT INTO familyMember(name, parent_id) VALUES ('Child 2', 1);
+INSERT INTO familyMember(name, parent_id) VALUES ('Grandchild 1', 2);
+INSERT INTO familyMember(name, parent_id) VALUES ('Grandchild 2', 2);
+INSERT INTO familyMember(name, parent_id) VALUES ('Grandchild 3', 3);
+INSERT INTO familyMember(name, parent_id) VALUES ('Grandchild 4', 3);
 
-INSERT INTO FamilyMember(name) VALUES ('Passion Malotky');
-INSERT INTO FamilyMember(name) VALUES ('Alex Malotky');
-
-INSERT INTO FamilyConnections(first_person, second_person) VALUES (1,2);
-INSERT INTO FamilyMember(name, connection_id) VALUES ('Child', 1)
+SELECT * FROM familyMember;
