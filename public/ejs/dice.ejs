@@ -3,17 +3,17 @@
 <link rel="stylesheet" href="/css/dice.css">
 <main id="main" class="row">
     <% for(let i=1;i<6;i++) { %>
-        <div class="die col-2" id="<%= i %>">
-            <figure class="d<%= i %>"></figure>
+        <div class="die col-md-2 col-sm-4 col-6" id="<%= i %>">
+            <figure class="d<%= i %> m-1"></figure>
         </div>
     <% } %>
-    <div class="col-2">
+    <div class="col-md-2 col-sm-4 col-6">
         <button class="btn btn-primary" id="role">Role Dice</button>
         <button class="btn btn-secondary" id="reset">Reset</button>
     </div>
     <div class="col-12 row scoreboard">
         <strong class="col-12">Scoring</strong>
-        <div class="col-4">
+        <div class="col-sm-4">
             <div class="w-100 row">
                 <span class="col-6">Ones:</span>
                 <span class="col-6">
@@ -55,7 +55,7 @@
                 <span class="col-6" id="bonusPoints"></span>
             </div>
         </div>
-        <div class=col-4>
+        <div class=col-sm-4>
             <div class="w-100 row">
                 <span class="col-6">Three of a Kind:</span>
                 <span class="col-6">
@@ -99,7 +99,7 @@
                 </span>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-sm-4">
             <div class="w-100 row">
                 <span class="col-9">Upper Sub Total:</span>
                 <span class="col-3" id="upperSubTotal"></span>
