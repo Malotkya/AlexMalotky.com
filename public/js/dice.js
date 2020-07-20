@@ -184,9 +184,11 @@ const takeY = event => {
         target.appendChild(createScoreNode(score));
 
         addBottomScore(score);
-        let yatzeeNode = document.querySelector("#additionlYahtzee");
-        yatzeeNode.innerText = 0;
-        calculateTotal();
+        if(score > 0){
+            let yatzeeNode = document.querySelector("#additionlYahtzee");
+            yatzeeNode.innerText = 0;
+            calculateTotal();
+        }
     }
 }
 
