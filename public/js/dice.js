@@ -6,7 +6,7 @@ const numbers = [
     "Fours:",
     "Fives:",
     "Sixs:"
-]
+];
 
 const roleDice = () => {
     for(let i=1; i<6; i++) {
@@ -20,7 +20,7 @@ const roleDice = () => {
     roleCount++;
     if(roleCount >= 3)
         lockDice();
-}
+};
 
 const lockDice = () => {
     document.querySelector("#role").disabled = true;
@@ -34,7 +34,7 @@ const lockDice = () => {
 
         target.className = `l${number} m-1`;
     });
-}
+};
 
 const unlockDice = () => {
     roleCount = 0;
@@ -49,21 +49,21 @@ const unlockDice = () => {
 
         target.className = `d${number} m-1`;
     });
-}
+};
 
 const reset = () => {
     let target = document.querySelector("main");
     target.innerHTML = "";
     roleCount = 0;
     buildGame(target);
-}
+};
 
 const createScoreNode = score => {
     let output = document.createElement("span");
     output.innerText = score;
     output.className = "btn";
     return output;
-}
+};
 
 const flipDie = event => {
     let target = event.target;
@@ -80,7 +80,7 @@ const flipDie = event => {
     } else {
         target.className = `d${number} m-1`;
     }
-}
+};
 
 const getDice = () => {
     let output = Array();
@@ -94,7 +94,7 @@ const getDice = () => {
         }
     });
     return output;
-}
+};
 
 const addTopScore = score => {
     let nodeSubTotal = document.querySelector("#upperSubTotal");
@@ -113,7 +113,7 @@ const addTopScore = score => {
     }
 
     nodeSubTotal.innerText = subTotal;
-}
+};
 
 const addBottomScore = score => {
     let nodeSubTotal = document.querySelector("#lowerSubTotal");
@@ -125,7 +125,7 @@ const addBottomScore = score => {
     subTotal += score;
 
     nodeSubTotal.innerText = subTotal;
-}
+};
 
 const calculateTotal = () => {
     let upperTotal = Number(document.querySelector("#upperSubTotal").innerText);
@@ -144,7 +144,7 @@ const calculateTotal = () => {
     document.querySelector("#total").innerText = total;
 
     unlockDice();
-}
+};
 
 const testYatzee = dice => {
     if( dice[0] == dice[1] && dice[1] == dice[2] &&
@@ -155,7 +155,7 @@ const testYatzee = dice => {
                 yatzeeNode.innerText = count + 1;
             }
         }
-}
+};
 
 const takeY = event => {
     if(checkRole()) {
@@ -177,7 +177,7 @@ const takeY = event => {
         }
         calculateTotal();
     }
-}
+};
 
 const checkRole = () => {
     if(roleCount > 0)
@@ -185,7 +185,7 @@ const checkRole = () => {
 
     alert("You need to role first!");
     return false;
-}
+};
 
 const takeNumber = event => {
     if(checkRole()) {
@@ -209,102 +209,7 @@ const takeNumber = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
-
-const take2 = event => {
-    if(checkRole()) {
-        let dice = getDice();
-        let score = 0;
-        dice.forEach(die => {
-            if(die == 2)
-                score += 2;
-        });
-
-        let target = event.target.parentNode;
-        target.innerHTML = "";
-        target.appendChild(createScoreNode(score));
-
-        addTopScore(score);
-        testYatzee(dice);
-        calculateTotal();
-    }
-}
-
-const take3 = event => {
-    if(checkRole()) {
-        let dice = getDice();
-        let score = 0;
-        dice.forEach(die => {
-            if(die == 3)
-                score += 3;
-        });
-
-        let target = event.target.parentNode;
-        target.innerHTML = "";
-        target.appendChild(createScoreNode(score));
-
-        addTopScore(score);
-        testYatzee(dice);
-        calculateTotal();
-    }
-}
-
-const take4 = event => {
-    if(checkRole()) {
-        let dice = getDice();
-        let score = 0;
-        dice.forEach(die => {
-            if(die == 4)
-                score += 4;
-        });
-
-        let target = event.target.parentNode;
-        target.innerHTML = "";
-        target.appendChild(createScoreNode(score));
-
-        addTopScore(score);
-        testYatzee(dice);
-        calculateTotal();
-    }
-}
-
-const take5 = event => {
-    if(checkRole()) {
-        let dice = getDice();
-        let score = 0;
-        dice.forEach(die => {
-            if(die == 5)
-                score += 5;
-        });
-
-        let target = event.target.parentNode;
-        target.innerHTML = "";
-        target.appendChild(createScoreNode(score));
-
-        addTopScore(score);
-        testYatzee(dice);
-        calculateTotal();
-    }
-}
-
-const take6 = event => {
-    if(checkRole()) {
-        let dice = getDice();
-        let score = 0;
-        dice.forEach(die => {
-            if(die == 6)
-                score += 6;
-        });
-
-        let target = event.target.parentNode;
-        target.innerHTML = "";
-        target.appendChild(createScoreNode(score));
-
-        addTopScore(score);
-        testYatzee(dice);
-        calculateTotal();
-    }
-}
+};
 
 const take3K = event => {
     if(checkRole()) {
@@ -337,7 +242,7 @@ const take3K = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
+};
 
 const take4K = event => {
     if(checkRole()) {
@@ -370,7 +275,7 @@ const take4K = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
+};
 
 const takeFH = event => {
     if(checkRole()) {
@@ -405,7 +310,7 @@ const takeFH = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
+};
 
 const hasNext = (dice, cur, count) => {
     for(let i=0;i<dice.length;i++) {
@@ -413,7 +318,7 @@ const hasNext = (dice, cur, count) => {
             return hasNext(dice, dice[i], count+1)
     }
     return count;
-}
+};
 
 const takeSS = event => {
     if(checkRole()) {
@@ -442,7 +347,7 @@ const takeSS = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
+};
 
 const takeLS = event => {
     if(checkRole()) {
@@ -471,7 +376,7 @@ const takeLS = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
+};
 
 const takeCH = event => {
     if(checkRole()) {
@@ -488,7 +393,7 @@ const takeCH = event => {
         testYatzee(dice);
         calculateTotal();
     }
-}
+};
 
 const help = event => window.alert("This is a game of Yatzee:\n" +
                                     "To start the game you click on role the dice.\n" +
@@ -527,7 +432,7 @@ const createScoreBoardNode = (string, buttonSettings, buttonOverRide) => {
     output.appendChild(second);
 
     return output;
-}
+};
 
 const createTotalNode = (string, id) => {
     let output = document.createElement("div");
@@ -546,7 +451,7 @@ const createTotalNode = (string, id) => {
     output.appendChild(second);
 
     return output;
-}
+};
 
 const buildGame = target => {
 
@@ -634,6 +539,6 @@ const buildGame = target => {
     scoreboard.appendChild(bottomHalf);
     scoreboard.appendChild(totals);
     target.appendChild(scoreboard)
-}
+};
 
 window.onload = reset;
