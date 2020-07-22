@@ -40,7 +40,6 @@ class ResumeDao {
             graduated:graduated,
             comments:comments
         });
-        console.log(school);
         school.save(null, {method:"insert"});
     }
 
@@ -77,7 +76,7 @@ class ResumeDao {
             startDate = new Date(startDate);
         if(typeof endDate == 'string')
             endDate = new Date(endDate);
-            
+
         let job = new JobHistory({
             title:title,
             location:location,
@@ -85,7 +84,6 @@ class ResumeDao {
             endDate:endDate,
             description:description
         });
-        console.log(job);
         job.save(null, {method:"insert"});
     }
 
