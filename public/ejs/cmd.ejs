@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta charset="utf-8" />
-      <title>Command Line Test</title>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src='./js/cmd.min.js'></script>
-      <link rel="stylesheet" href="/css/cmd.css">
-</head>
-<body>
-    <div id="wrapper"></div>
-</body>
-</html>
+<%- include("template/header.ejs", {title: 'Terminal App'}); %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="module" src='./js/cmd.js'></script>
+<main id="main">
+    <div id="terminal"></div>
+</main>
+<%- include("template/footer.ejs") %>

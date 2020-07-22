@@ -52,3 +52,7 @@ figure img{
 .tab-content .container {
     max-width: 100%;
 }
+
+a:link, a:visited {
+    color: inherit;
+}

@@ -3,7 +3,7 @@ import App from './Terminal/App.js';
 
 const init = () => {
 
-    let terminal = new Terminal(document.querySelector("#wrapper"));
+    let terminal = new Terminal($("#terminal"));
 
     terminal.println("Welcome to AlexMalotky.com");
 
@@ -16,7 +16,7 @@ const init = () => {
 const set = (terminal, args) => {
     switch (args[1].toLowerCase()) {
     case "help":
-        terminal.println("Any css property can be changed/added to the body element of this page using this property.");
+        terminal.println("This function can add or change any css property that can be used on this terminal object");
         terminal.println("Additionaly using preCursor will change the string before each input");
         terminal.println("I have also added the functionality that font-color works the same as color.");
         break;
@@ -26,7 +26,7 @@ const set = (terminal, args) => {
     case "font-color":
         args[1] = "color";
     default:
-        document.querySelector("body").style[args[1]] = args[2];
+        document.querySelector("#terminal").style[args[1]] = args[2];
 
     }
 }

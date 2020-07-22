@@ -9,12 +9,24 @@ class Terminal{
     // @param: location in the dom you want the terminal to show in.
     constructor(object) {
 
+        object.css({
+            "background-color": "black",
+            "color": "green",
+            "font-family": "'Source Code Pro', monospace",
+            "height": "30em",
+            "width":  "100ch",
+            "position": "relative",
+            "top": "0",
+            "left": "0",
+            "margin": "auto"
+        });
+
         //Build output ---------------------------------------------------------
         this.output = $("<div>").attr("id", "history")
             .appendTo(object)
             .css( {
                 "position": "absolute",
-                "bottom": "1.2em",
+                "bottom": "1.25em",
                 "left": "0",
                 "width": "100%",
                 "margin": "0",
