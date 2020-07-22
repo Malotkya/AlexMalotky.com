@@ -1,35 +1,20 @@
 let roleCount = 0;
-
-window.onload = () => {
-    document.querySelector("#role").addEventListener("click", roleDice);
-    document.querySelector("#reset").addEventListener("click", reset );
-
-    document.querySelectorAll(".die").forEach(die => {
-        die.addEventListener("click", flipDie);
-    });
-
-    document.querySelector("#take1").addEventListener("click", take1);
-    document.querySelector("#take2").addEventListener("click", take2);
-    document.querySelector("#take3").addEventListener("click", take3);
-    document.querySelector("#take4").addEventListener("click", take4);
-    document.querySelector("#take5").addEventListener("click", take5);
-    document.querySelector("#take6").addEventListener("click", take6);
-    document.querySelector("#take3K").addEventListener("click", take3K);
-    document.querySelector("#take4K").addEventListener("click", take4K);
-    document.querySelector("#takeFH").addEventListener("click", takeFH);
-    document.querySelector("#takeSS").addEventListener("click", takeSS);
-    document.querySelector("#takeLS").addEventListener("click", takeLS);
-    document.querySelector("#takeY").addEventListener("click", takeY);
-    document.querySelector("#takeCH").addEventListener("click", takeCH)
-}
+const numbers = [
+    "Ones:",
+    "Twos:",
+    "Threes:",
+    "Fours:",
+    "Fives:",
+    "Sixs:"
+]
 
 const roleDice = () => {
     for(let i=1; i<6; i++) {
-        let role = "d" + Math.floor((Math.random() * 6) + 1);
+        let role = Math.floor((Math.random() * 6) + 1);
         let die = document.getElementById(i).querySelector("figure");
 
         if(die.className.trim().charAt(0) != "l")
-            die.className = role;
+            die.className = `d${role} m-1`;
     }
 
     roleCount++;
@@ -47,7 +32,7 @@ const lockDice = () => {
         if(isNaN(number))
             number = 1;
 
-        target.className = `l${number}`;
+        target.className = `l${number} m-1`;
     });
 }
 
@@ -62,13 +47,15 @@ const unlockDice = () => {
         if(isNaN(number))
             number = 1;
 
-        target.className = `d${number}`;
+        target.className = `d${number} m-1`;
     });
 }
 
 const reset = () => {
-    //Plan on changing this later
-    window.location.reload()
+    let target = document.querySelector("main");
+    target.innerHTML = "";
+    roleCount = 0;
+    buildGame(target);
 }
 
 const createScoreNode = score => {
@@ -89,9 +76,9 @@ const flipDie = event => {
         number = 1;
 
     if(target.className.trim().charAt(0) == "d") {
-        target.className = `l${number}`;
+        target.className = `l${number} m-1`;
     } else {
-        target.className = `d${number}`;
+        target.className = `d${number} m-1`;
     }
 }
 
@@ -187,8 +174,8 @@ const takeY = event => {
         if(score > 0){
             let yatzeeNode = document.querySelector("#additionlYahtzee");
             yatzeeNode.innerText = 0;
-            calculateTotal();
         }
+        calculateTotal();
     }
 }
 
@@ -200,13 +187,18 @@ const checkRole = () => {
     return false;
 }
 
-const take1 = event => {
+const takeNumber = event => {
     if(checkRole()) {
         let dice = getDice();
         let score = 0;
+
+        let number = Number(event.target.attributes.number.nodeValue);
+        if(isNaN(number))
+            number = 0;
+
         dice.forEach(die => {
-            if(die == 1)
-                score += 1;
+            if(die == number)
+                score += number;
         });
 
         let target = event.target.parentNode;
@@ -497,3 +489,151 @@ const takeCH = event => {
         calculateTotal();
     }
 }
+
+const help = event => window.alert("This is a game of Yatzee:\n" +
+                                    "To start the game you click on role the dice.\n" +
+                                    "Then you click on the dice you want to keep and role again\n" +
+                                    "Once you have the dice you want to keep or you have roled the maximum of three times you may " +
+                                    " click keep on the score you want to take.");
+
+const createScoreBoardNode = (string, buttonSettings, buttonOverRide) => {
+    let output = document.createElement("div");
+    output.className = "w-100 row";
+
+    let first = document.createElement("span");
+    first.className = "col-6";
+    first.innerText = string;
+
+
+    let second = document.createElement("span");
+    second.className = "col-6";
+    if(typeof buttonOverRide != "undefined") {
+        second = buttonOverRide;
+    } else {
+        let button = document.createElement("button");
+        button.className = "btn btn-primary";
+        button.innerText = "Take";
+
+        if(typeof buttonSettings.number != "undefined")
+            button.setAttribute("number", buttonSettings.number);
+
+        if(typeof buttonSettings.callback != "undefined")
+            button.addEventListener("click", buttonSettings.callback);
+
+        second.appendChild(button);
+    }
+
+    output.appendChild(first);
+    output.appendChild(second);
+
+    return output;
+}
+
+const createTotalNode = (string, id) => {
+    let output = document.createElement("div");
+    output.className = "w-100 row";
+
+    let first = document.createElement("span");
+    first.className = "col-9";
+    first.innerText = string;
+
+
+    let second = document.createElement("span");
+    second.className = "col-3";
+    second.id = id;
+
+    output.appendChild(first);
+    output.appendChild(second);
+
+    return output;
+}
+
+const buildGame = target => {
+
+    for(let i=1;i<6;i++) {
+        let die = document.createElement("div");
+        die.className = "die col-md-2 col-sm-4 col-6";
+        die.id = i;
+
+        let figure = document.createElement("figure")
+        figure.className = `d${i} m-1`;
+
+        die.appendChild(figure);
+        die.addEventListener("click", flipDie);
+        target.appendChild(die);
+    }
+    let buttonGroup = document.createElement("div");
+    buttonGroup.className = "col-md-2 col-sm-4 col-6";
+
+    let btnRole = document.createElement("button")
+    btnRole.innerText = "Role Dice";
+    btnRole.className = "btn btn-primary w-100";
+    btnRole.id = "role"
+    btnRole.addEventListener("click", roleDice);
+
+    let btnReset = document.createElement("button")
+    btnReset.innerText = "Reset";
+    btnReset.className = "btn btn-secondary w-100";
+    btnReset.addEventListener("click", reset );
+
+    let btnHelp = document.createElement("button")
+    btnHelp.innerText = "About";
+    btnHelp.className = "btn btn-success w-100";
+    btnHelp.addEventListener("click", help);
+
+    buttonGroup.appendChild(btnRole);
+    buttonGroup.appendChild(btnReset);
+    buttonGroup.appendChild(btnHelp);
+    target.appendChild(buttonGroup);
+
+    let scoreboard = document.createElement("div");
+    scoreboard.className = "col-12 row scoreboard";
+
+    let scoreHeader = document.createElement("strong");
+    scoreHeader.className = "col-12";
+    scoreHeader.innerText = "Scoring";
+    scoreboard.appendChild(scoreHeader);
+
+    //Top Half of Score Board
+    let topHalf = document.createElement("div");
+    topHalf.className = "col-sm-4";
+
+    numbers.forEach((item, i) => topHalf.appendChild(createScoreBoardNode(item, {
+            number:i+1,
+            callback: takeNumber
+        })));
+
+    let bonus = document.createElement("span");
+    bonus.className = "col-6"
+    bonus.id = "bonusPoints";
+    topHalf.appendChild(createScoreBoardNode("Bonus Points:", null, bonus));
+
+    //Bottom Half of ScoreBoard
+    let bottomHalf = document.createElement("div");
+    bottomHalf.className = "col-sm-4";
+
+    bottomHalf.appendChild(createScoreBoardNode("Three of a Kind:", {callback:take3K}));
+    bottomHalf.appendChild(createScoreBoardNode("Four of a Kind:" , {callback:take4K}));
+    bottomHalf.appendChild(createScoreBoardNode("Full House:" ,     {callback:takeFH}));
+    bottomHalf.appendChild(createScoreBoardNode("Small Strait:" ,   {callback:takeSS}));
+    bottomHalf.appendChild(createScoreBoardNode("Large Strait:" ,   {callback:takeLS}));
+    bottomHalf.appendChild(createScoreBoardNode("Yahtzee:" ,        {callback:takeY}));
+    bottomHalf.appendChild(createScoreBoardNode("Chance:" ,         {callback:takeCH}));
+
+    let totals = document.createElement("div");
+    totals.className = "col-sm-4";
+
+    totals.appendChild(createTotalNode("Upper Sub Total:", "upperSubTotal"));
+    totals.appendChild(createTotalNode("Lower Sub Total:", "lowerSubTotal"));
+    totals.appendChild(document.createElement("hr"));
+    totals.appendChild(createTotalNode("Additional Yahtzee's:", "additionlYahtzee"));
+    totals.appendChild(document.createElement("hr"));
+    totals.appendChild(createTotalNode("Total:", "total"));
+
+    scoreboard.appendChild(topHalf);
+    scoreboard.appendChild(bottomHalf);
+    scoreboard.appendChild(totals);
+    target.appendChild(scoreboard)
+}
+
+window.onload = reset;
