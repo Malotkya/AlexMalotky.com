@@ -29,7 +29,7 @@ const set = (terminal, args) => {
         document.querySelector("#terminal").style[args[1]] = args[2];
 
     }
-}
+};
 
 class myApp extends App {
     constructor() {
@@ -53,4 +53,4 @@ class myApp extends App {
 
         terminal.println(`I have counted a total number of ${this.total}`);
     }
-}
+};

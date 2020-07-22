@@ -15,7 +15,7 @@ export const reset = (terminal, args) => {
 
 export const exit = (terminal, args) => {
     terminal.println("Good Bie!")
-    window.close();
+    window.location.replace("/");
 }
 
 export const about = (terminal, args) => {

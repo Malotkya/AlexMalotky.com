@@ -19,7 +19,7 @@ class Terminal{
             "top": "0",
             "left": "0",
             "margin": "auto"
-        });
+        }).text("");
 
         //Build output ---------------------------------------------------------
         this.output = $("<div>").attr("id", "history")
@@ -49,7 +49,8 @@ class Terminal{
             .appendTo(object)
             .attr({
                 "autocomplete": "off",
-                "type": "text"
+                "type": "text",
+                "id": "input"
             }).css({
                 "position": "absolute",
                 "bottom": "0",
@@ -60,7 +61,12 @@ class Terminal{
                 "border-style": "none",
                 "font-size": "inherit",
                 "width": "calc(100% - 3ch)"
-            }).keydown(this.getInput);
+            }).keydown(this.getInput)
+            .focus(()=>{
+                $("#input").css({
+                    "outline": "none"
+                })
+            });
 
 
         //Other objects used in the terminal -----------------------------------
