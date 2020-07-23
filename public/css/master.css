@@ -36,10 +36,15 @@
     height: auto;
 }
 
-body {
-  background-color: var(--purple);
+#wrapper {
+  background-color: slateblue;
   font-family: 'Roboto Mono', monospace;
   margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 figure img{
