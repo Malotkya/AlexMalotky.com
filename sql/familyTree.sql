@@ -7,8 +7,8 @@ CREATE TABLE familyMember (
     name varchar(50),
     picture varchar(20),
     parent_id INT,
-    constraint primary key(id),
-    constraint foreign key(parent_id) references familyMember(id)
+    constraint primary key(id)
+    /*constraint foreign key(parent_id) references familyMember(id)*/
 );
 
 INSERT INTO familyMember(name) VALUES ('Alex & Passion Malotky');

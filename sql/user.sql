@@ -13,7 +13,7 @@ CREATE TABLE user (
 
 CREATE TABLE role (
 	id int auto_increment,
-    type varchar(10),
+    type varchar(15),
     constraint primary key(id)
 );
 
@@ -28,6 +28,7 @@ CREATE TABLE user_role (
 INSERT INTO role(type) VALUES('Admin');
 INSERT INTO role(type) VALUES('Blogger');
 INSERT INTO role(type) VALUES('Family');
+INSERT INTO role(type) VALUES('Family-Admin');
 
 INSERT INTO user(email, password)
 VALUES('root', '$2a$10$HylEyU5lpYe.JhG6r5oSS.roQWexP50t0BcReTbih.jQNvoAaKvYK');
@@ -43,6 +44,9 @@ VALUES(1,2);
 
 INSERT INTO user_role(user_id, role_id)
 VALUES(1,3);
+
+INSERT INTO user_role(user_id, role_id)
+VALUES(1,4);
 
 INSERT INTO user_role(user_id, role_id)
 VALUES(2,2);

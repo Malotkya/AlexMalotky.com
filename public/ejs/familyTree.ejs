@@ -1,17 +1,25 @@
-<%- include("template/header.ejs", {title: 'Alex Malotky'}); %>
+<%- include("template/header.ejs", {title: 'Alex Malotky', user:user}); %>
 <link rel="stylesheet" href="/css/tree.css">
+<script src="/js/tree.js" charset="utf-8"></script>
 <main id="main" class="row">
-    <!--
-    We will create a family tree using just CSS(3)
-    The markup will be simple nested lists
-    -->
-    <section class="tree col-sm-9">
-        <ul>
-            <%- include("tree/familyMember.ejs", {parent:parent}); %>
-        </ul>
-    </section>
-    <aside class="col-sm-3">
-        <%- include("tree/form.ejs") %>
+    <section class="tree col-lg-8"></section>
+    <aside class="col-lg-4">
+        <label for="select">Select A Family Member:</label>
+        <% if(id != null) { %>
+            <input type="hidden" id="initial" value="<%= id %>" />
+        <% } %>
+        <select id="select" name="select" class="form-control">
+            <% tree.forEach(person => { %>
+                <%- include("tree/familyMember.ejs", {person:person, all:true}) %>
+            <% }) %>
+        </select>
+        <% if(user.roles.includes("Family-Admin")) {%>
+            <%- include("tree/admin.ejs", {tree:tree}) %>
+        <% } %>
+        <hr />
+        <figure>
+            Larger image will go here once it is supported
+        </figure>
     </aside>
     <div class="col-12">
         The family tree css code is base on an example that can be found

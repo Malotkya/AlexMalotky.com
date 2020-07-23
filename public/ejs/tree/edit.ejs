@@ -1,0 +1,42 @@
+<button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#modalEdit">
+  Edit <span class="name">Person</span>'s Info
+</button>
+
+<form class="modal text-left" id="modalEdit" action="FamilyTree/Update" method="POST">
+    <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit <span class="name">Person</span>'s Info</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+          <lable for="name">Name:</lable>
+          <input type="text" name="name" id="name" class="form-control" />
+
+          <label for="picture">Picture: </label>
+          <input type="file" name="picture" id="picture" class="w-100" />
+
+          <lable for="parent">Parent: </lable>
+          <select id="parent" name="parent_id" class="form-control">
+              <option value="">None</option>
+              <% tree.forEach(person => { %>
+                  <%- include("familyMember", {person:person}) %>
+              <% }) %>
+          </select>
+
+          <input type="hidden" name="id" id="id" />
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <input type="submit" value="Submit" class="btn btn-primary"/>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</form>

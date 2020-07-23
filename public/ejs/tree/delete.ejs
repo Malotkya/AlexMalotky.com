@@ -1,0 +1,29 @@
+<button type="button" class="btn btn-danger m-1" data-toggle="modal" data-target="#modalDelete">
+  Delete <span class="name">Person</span>
+</button>
+
+<form class="modal text-left" id="modalDelete" action="FamilyTree/Delete" method="POST">
+    <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Delete <span class="name">Person</span></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+          <input type="hidden" name="id" id="id" />
+          Are you sure you want to delete: <span class="name">Person</span>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <input type="submit" value="Delete" class="btn btn-danger"/>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</form>
