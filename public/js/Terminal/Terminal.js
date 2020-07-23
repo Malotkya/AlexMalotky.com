@@ -210,6 +210,9 @@ class Terminal{
         }
     };
 
+    // Gets keycode of event and acts accordingly to appropriate key
+    //
+    // Clears the output of the terminal
     reset = () => {
         this.output.html("");
         this.println("Welcome to AlexMalotky.com");
