@@ -14,7 +14,7 @@ const roleDice = () => {
         let die = document.getElementById(i).querySelector("figure");
 
         if(die.className.trim().charAt(0) != "l")
-            die.className = `d${role} m-1`;
+            die.className = `d${role} `;
     }
 
     roleCount++;
@@ -32,7 +32,7 @@ const lockDice = () => {
         if(isNaN(number))
             number = 1;
 
-        target.className = `l${number} m-1`;
+        target.className = `l${number} `;
     });
 };
 
@@ -47,7 +47,7 @@ const unlockDice = () => {
         if(isNaN(number))
             number = 1;
 
-        target.className = `d${number} m-1`;
+        target.className = `d${number} `;
     });
 };
 
@@ -76,9 +76,9 @@ const flipDie = event => {
         number = 1;
 
     if(target.className.trim().charAt(0) == "d") {
-        target.className = `l${number} m-1`;
+        target.className = `l${number} `;
     } else {
-        target.className = `d${number} m-1`;
+        target.className = `d${number} `;
     }
 };
 
@@ -461,7 +461,7 @@ const buildGame = target => {
         die.id = i;
 
         let figure = document.createElement("figure")
-        figure.className = `d${i} m-1`;
+        figure.className = `d${i} `;
 
         die.appendChild(figure);
         die.addEventListener("click", flipDie);
