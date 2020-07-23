@@ -7,7 +7,9 @@ DROP TABLE user;
 CREATE TABLE user (
 	id int auto_increment,
     email varchar(20),
-    password char(60),
+    password varchar(60),
+    firstName varchar(20),
+    lastName varchar(20),
     constraint primary key(id)
 );
 
@@ -34,7 +36,7 @@ INSERT INTO user(email, password)
 VALUES('root', '$2a$10$HylEyU5lpYe.JhG6r5oSS.roQWexP50t0BcReTbih.jQNvoAaKvYK');
 
 INSERT INTO user(email, password)
-VALUES('ajmalotky', '$2a$10$HylEyU5lpYe.JhG6r5oSS.roQWexP50t0BcReTbih.jQNvoAaKvYK');
+VALUES('test', '$2a$10$HylEyU5lpYe.JhG6r5oSS.roQWexP50t0BcReTbih.jQNvoAaKvYK');
 
 INSERT INTO user_role(user_id, role_id)
 VALUES(1,1);
@@ -50,3 +52,8 @@ VALUES(1,4);
 
 INSERT INTO user_role(user_id, role_id)
 VALUES(2,2);
+
+INSERT INTO user_role(user_id, role_id)
+VALUES(2,3);
+
+Select * from user;
