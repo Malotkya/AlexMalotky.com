@@ -5,8 +5,6 @@ const init = () => {
 
     let terminal = new Terminal($("#terminal"));
 
-    terminal.println("Welcome to AlexMalotky.com");
-
     terminal.addFunction("set", "Can be used to apply css properties to the page", set);
     terminal.addApp(new App("doIt", "A basic hello world app"));
     terminal.addApp(new myApp());

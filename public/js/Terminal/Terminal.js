@@ -76,6 +76,7 @@ class Terminal{
         this.historyLocation = -1;
 
         this.init();
+        this.reset();
     };
 
     // Load the pre built functions and gives input focus
@@ -208,6 +209,11 @@ class Terminal{
                 break;
         }
     };
+
+    reset = () => {
+        this.output.html("");
+        this.println("Welcome to AlexMalotky.com");
+    }
 
 };
 

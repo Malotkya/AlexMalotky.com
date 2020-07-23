@@ -9,8 +9,7 @@ export const help = (terminal, args) => {
 }
 
 export const reset = (terminal, args) => {
-    terminal.println("Reseting !indow!")
-    window.location.reload();
+    terminal.reset();
 }
 
 export const exit = (terminal, args) => {
@@ -18,11 +17,17 @@ export const exit = (terminal, args) => {
     window.location.replace("/");
 }
 
-export const about = (terminal, args) => {
-    terminal.println("About info comming soon!");
-}
-
 export const print = (terminal, args) => {
     let string = args.splice(1, args.length-1).join(" ");
     terminal.print($("<div>").html(string));
+}
+
+export const about = (terminal, args) => {
+    terminal.println("This is an attempt to see what I can create in this environement.");
+    terminal.println("I plan to continue to expand the functionality of thie terminal");
+    terminal.println("Goals Include:");
+    terminal.println("1: Login like functionality")
+    terminal.println("2: Saving settings to cookies");
+    terminal.println("3: Create a file like system in cookies to allow custom apps");
+    terminal.println("4: Create a basic game like snake");
 }
