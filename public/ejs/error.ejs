@@ -1,15 +1,15 @@
-<% if( !(message) ) {
+<% if( typeof message == "undefined" ) {
        message = "There has been an error of some kind";
    }
 
-   if( !(title) ) {
+   if( typeof title == "undefined" ) {
        title = "Oops";
    }
 %>
 <%- include("template/header.ejs", {title:title}); %>
 <main id="main" class="col-12">
-    <div class="message-error">
-        <%= message %>
+    <div class="alert alert-danger text-center">
+        <strong>Error!</strong> <%= message %>
     </div>
 </main>
 <%- include("template/footer.ejs") %>
