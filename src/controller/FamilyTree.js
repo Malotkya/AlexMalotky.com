@@ -55,7 +55,6 @@ class FamilyTree {
             default:
                 //Do Nothing
             }
-            console.log(id);
             let redirect = "";
             if(id >= 0) {
                 redirect = `?id=${id}`
