@@ -58,3 +58,8 @@ figure img{
 .form {
     background-color: gray;
 }
+
+header, footer {
+    padding: 0.25em;
+    background-color: #343a40;
+}
