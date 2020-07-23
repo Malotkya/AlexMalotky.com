@@ -1,0 +1,26 @@
+<%- include("template/header.ejs", {title: 'Alex Malotky'}); %>
+<main id="main">
+    <main id="main" class="row justify-content-center">
+        <% if(typeof errMessage != "undefined") {  %>
+            <div class="alert alert-danger" role="alert">
+                <%= errMessage %>
+            </div>
+        <% } %>
+        <form class="col-10 form" action="/Signup" method="post">
+            <h2>Sign Up</h2>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" class="form-control" value="<% if(typeof email != "undefined") { %><%=email%><% } %>"/>
+            <label for="password1">Password</label>
+            <input type="password" id="password1" name="password1" class="form-control"/>
+            <label for="password2">Re-Enter Password</label>
+            <input type="password" id="password2" name="password2" class="form-control" />
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" value="<% if(typeof firstName != "undefined") { %><%=firstName%><% } %>"/>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" value="<% if(typeof lastName != "undefined") { %><%=lastName%><% } %>"/>
+            <input type="hidden" name="callback" value="<% if(typeof callback != "undefined") { %><%=callback%><% } %>"/>
+            <input type="submit" value="Sign Up" class="btn btn-primary m-1"/>
+        </form>
+    </main>
+</main>
+<%- include("template/footer.ejs") %>

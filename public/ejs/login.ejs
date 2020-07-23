@@ -1,16 +1,12 @@
 <%- include("template/header.ejs", {title: 'Login'}); %>
 <main id="main" class="row justify-content-center">
-    <form class="col-10" action="/Login" method="post">
+    <form class="col-10 form" action="/Login" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" class="form-control"/>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" class="form-control"/>
-        <a href="/Signup">Sign Up Here</a> <br />
-        <input type="hidden" value="<%
-            if(typeof callback != "undefined") { %>
-                <%=callback%>
-            <% }
-         %>" name="callback" />
+        <a href="/Signup<% if(typeof callback != "undefined") { %><%=`?return=${callback}`%><% } %>">Sign Up Here</a> <br />
+        <input type="hidden" value="<% if(typeof callback != "undefined") { %><%=callback%><% } %>" name="callback" />
         <input type="submit" value="Login" class="btn btn-primary"/>
     </form>
 </main>

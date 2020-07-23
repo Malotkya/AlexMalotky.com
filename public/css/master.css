@@ -49,3 +49,7 @@ figure img{
 .tab-content .container {
     max-width: 100%;
 }
+
+.form {
+    background-color: gray;
+}
