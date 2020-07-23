@@ -99,7 +99,8 @@
 }
 
 .die figure {
-    margin: auto;
+    margin: 0.5em auto;
+
 }
 
 .scoreboard {
