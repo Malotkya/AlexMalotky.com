@@ -1,11 +1,11 @@
 <%- include("template/header.ejs", {title: 'Terminal App'}); %>
 <script type="module" src='./js/cmd.js'></script>
 <main id="main">
-    <div id="terminal">
+    <canvas id="terminal" tabindex="1">
         The terminal app does not support Internet Explorer or Microsoft Edge,
         because niether supports using modules.<br />
         Try using <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>
         or <a href="https://www.google.com/chrome/">Chrome</a>.
-    </div>
+    </canvas>
 </main>
 <%- include("template/footer.ejs") %>
