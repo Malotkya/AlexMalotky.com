@@ -1,96 +1,39 @@
-import * as KeyCode from './KeyCode.js';
-import {help, reset, exit, about, print} from './Prebuilt.js';
+import * as Keyboard from './Keyboard.js';
+import {help, reset, exit, about} from './Prebuilt.js';
 import App from './App.js'
+import Bios from './Bios.js'
 
-class Terminal{
+class Terminal {
     // Builds the objects that will be used by the terminal and add them to
     // the dom
     //
     // @param: location in the dom you want the terminal to show in.
-    constructor(object) {
+    constructor(target) {
+        this.test = 0;
 
-        object.css({
-            "background-color": "black",
-            "color": "green",
-            "font-family": "'Source Code Pro', monospace",
-            "height": "30em",
-            "width":  "100ch",
-            "position": "relative",
-            "top": "0",
-            "left": "0",
-            "margin": "auto"
-        }).text("");
+        this.bios = new Bios(target, this);
 
-        //Build output ---------------------------------------------------------
-        this.output = $("<div>").attr("id", "history")
-            .appendTo(object)
-            .css( {
-                "position": "absolute",
-                "bottom": "1.25em",
-                "left": "0",
-                "width": "100%",
-                "margin": "0",
-                "overflow": "auto",
-                "maxHeight": "calc(100% - 1em)",
-                "wordBreak": "break-all"
-            } );
+        this.history = {
+            list: [],
+            location: -1
+        }
 
-        //Build input ----------------------------------------------------------
-        this.preCursor = $("<div>").text("$:")
-            .appendTo(object)
-            .css({
-                "position": "absolute",
-                "bottom": "0",
-                "left": "0"
-            });
-
-
-        this.input = $("<input>")
-            .appendTo(object)
-            .attr({
-                "autocomplete": "off",
-                "type": "text",
-                "id": "input"
-            }).css({
-                "position": "absolute",
-                "bottom": "0",
-                "left": "3ch",
-                "background-color": "inherit",
-                "color": "inherit",
-                "font-family": "inherit",
-                "border-style": "none",
-                "font-size": "inherit",
-                "width": "calc(100% - 3ch)"
-            }).keydown(this.getInput)
-            .focus(()=>{
-                $("#input").css({
-                    "outline": "none"
-                })
-            });
-
-
-        //Other objects used in the terminal -----------------------------------
-        this.functions = {};
-        this.functionDescription = {};
-        this.history = [];
-        this.historyLocation = -1;
-
-        this.init();
         this.reset();
+        this.init();
     };
 
     // Load the pre built functions and gives input focus
     init = () => {
 
+        this.functions = {
+            callback:{},
+            description:{}
+        }
+
         this.addFunction("help", "Displays this list of functions", help);
         this.addFunction("exit", "Closes the tab", exit);
-        this.addFunction("reset", "Refreshes the tab", reset);
-        this.addFunction("list", "Displays this list of functions", help);
+        this.addFunction("reset", "Resets the display", reset);
         this.addFunction("about", "Displays more info about this app", about);
-        this.addFunction("print", "Will print the rest of the line as html instead of text",
-                            print);
-
-        this.input.focus();
     };
 
     // Move through the array of past inputs and show the current selected
@@ -99,18 +42,18 @@ class Terminal{
     // @param: iterator how much to move up or down
     moveHistory = it => {
 
-        if(this.history.length > 0) {
-            this.historyLocation += it;
+        if(this.history.list.length > 0) {
+            this.history.location += it;
 
-            if(this.historyLocation < 0) {
-                this.historyLocation = 0;
+            if(this.history.location < 0) {
+                this.history.location = 0;
             }
 
-            if(this.historyLocation >= this.history.length) {
-                this.historyLocation = this.history.length-1;
+            if(this.history.location >= this.history.list.length) {
+                this.history.location = this.history.list.length-1;
             }
 
-            this.input.val( this.history[this.historyLocation] );
+            this.input.value = this.history.list[this.history.location];
         }
     };
 
@@ -118,20 +61,30 @@ class Terminal{
     //
     // @param string form of the command
     addToHistory = string => {
-        this.println(this.preCursor.text() + " " + string);
-        this.history.push(string);
-        this.historyLocation = this.history.length;
+        this.println(this.input.preCursor + string);
+        this.history.list.push(string);
+        this.history.location = this.history.length;
     };
 
     // Print string in <div> element
     //
     // @param input string to print
-    println = input => $("<div>").text(input).appendTo(this.output)[0].scrollIntoView();
+    println = input => {
+        this.output.list.push(input);
+        this.output.newline = true;
+    }
 
     // Prints jquery element
     //
     // @param input string to print
-    print = input => input.appendTo(this.output)[0].scrollIntoView();
+    print = input => {
+        if(this.output.newline) {
+            this.output.list.push(input);
+        } else {
+            this.output.list[this.output.list.length-1] += input;
+        }
+        this.output.newline = false;
+    }
 
     // Adds function to be called from the terminal
     //
@@ -139,8 +92,8 @@ class Terminal{
     // @param description of the function being added
     // @param callback pointing to the function
     addFunction = (call,description,callback) => {
-        this.functions[call] = callback;
-        this.functionDescription[call] = description;
+        this.functions.callback[call] = callback;
+        this.functions.description[call] = description;
     }
 
     // Adds an app to the function list that can be called from the Terminal
@@ -149,8 +102,8 @@ class Terminal{
     addApp = app => {
         if( (typeof app.call === "string") && (typeof app.description === "string")
                 && (typeof app.main === "function") ){
-            this.functions[app.call.toLowerCase()] = app.main;
-            this.functionDescription[app.call.toLowerCase()] = app.description;
+            this.functions.callback[app.call.toLowerCase()] = app.main;
+            this.functions.description[app.call.toLowerCase()] = app.description;
         }
     }
 
@@ -158,13 +111,7 @@ class Terminal{
     //
     // @param string for precursor
     setPreCursor = string => {
-        let length = string.length+1
-
-        this.preCursor.text(string);
-        this.input.css({
-            "left": `${length}ch`,
-            "width": `calc(100% - ${length}ch)`
-        })
+        this.input.preCursor = string;
     }
 
     // Runs the command that is inputed
@@ -174,7 +121,7 @@ class Terminal{
         this.addToHistory(cmd);
 
         let args = cmd.split(/\s+/);
-        let callback = this.functions[args[0].toLowerCase()];
+        let callback = this.functions.callback[args[0].toLowerCase()];
 
         if(callback === undefined) {
             this.println("Unkown Command!");
@@ -186,37 +133,65 @@ class Terminal{
 
     // Gets keycode of event and acts accordingly to appropriate key
     //
-    // KeyCode.ENTER      => runs command entered in the input
-    // KeyCode.UP_ARROW   => moves back through history
-    // KeyCode.DOWN_ARROW => moves forward through history
+    // Keyboard.ENTER      => runs command entered in the input
+    // Keyboard.UP_ARROW   => moves back through history
+    // Keyboard.DOWN_ARROW => moves forward through history
     //
     // @param event used to get key code
-    getInput = event => {
-        let keyCode = KeyCode.getKeyCode(event);
-
-        switch (keyCode) {
-            case KeyCode.ENTER:
-                this.run(this.input.val());
-                this.input.val("");
+    event = key => {
+            switch (key) {
+            case Keyboard.ENTER:
+                this.run(this.input.value);
+                this.input.value = "";
                 break;
 
-            case KeyCode.UP_ARROW:
+            case Keyboard.BACK_SPACE:
+                this.input.value = this.input.value.slice(0, -1);
+                break;
+
+            case Keyboard.ARROW_UP:
                 this.moveHistory(-1);
                 break;
 
-            case KeyCode.DOWN_ARROW:
+            case Keyboard.ARROW_DOWN:
                 this.moveHistory(1);
+                break;
+
+            default:
+                this.input.value += Keyboard.getKeyPressed(key);
                 break;
         }
     };
 
-    // Gets keycode of event and acts accordingly to appropriate key
-    //
-    // Clears the output of the terminal
-    reset = () => {
-        this.output.html("");
-        this.println("Welcome to AlexMalotky.com");
+    draw = () => {
+        this.bios.print(this.input.x, this.input.y, this.input.preCursor + this.input.value  + this.input.cursor);
+
+        let index = this.output.list.length-1;
+        let y = this.input.y-1;
+        while(index >= 0 && y > 0) {
+            this.bios.print(1,y,this.output.list[index]);
+
+            index--;
+            y--;
+        }
     }
+
+    reset = () => {
+        this.input = {
+            x:1,
+            y:30,
+            value:"",
+            preCursor: "$: ",
+            cursor: "█"
+        };
+
+        this.output = {
+            list: [],
+            newline:true
+        };
+    }
+
+    close = () => this.bios.shutdown();
 
 };
 
