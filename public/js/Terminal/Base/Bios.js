@@ -27,8 +27,10 @@ class Bios {
         this.gl.canvas.addEventListener("keypress", this.onKeyPress);
         //target.mouseover()
 
-        console.log(this.gl)
-        window.requestAnimationFrame(this.draw)
+        this.x = 1;
+        this.y = 1;
+
+        this.gl.fillStyle = "green";
     }
 
     // Handels key down event and calls keyPress and keyUp for certain keys like
@@ -66,21 +68,33 @@ class Bios {
     }
 
     //Prints the string at the x and y cordinet based on a grid of chars
-    print = (x,y,str) => this.gl.fillText(str, (x-1)*this.cw, ((y-1)*this.ch)+this.y_offset);
+    print = string => {
+        for(let i=0; i<string.length; i++) {
+            let char = string.charAt(i);
+            if(char == '\n' || char == '\r') {
+                this.x = 1;
+                this.y++;
+            } else {
+                this.render(this.x,this.y,char);
+                this.x++;
+                if(this.x > this.width()) {
+                    this.x = 1;
+                    this.y++;
+                }
 
-    //Future planned functions to allow access to pixels
-    set = (x,y,bool) => {}
-    flip = (x,y) => {}
+                if(this.y > this.height()) {
+                    this.grow();
+                }
+            }
+        }
+    }
 
-    //draws the os using the above given functions.
-    draw = () => {
-        this.gl.fillColor = "black";
-        this.gl.fillRect(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-        this.gl.save();
+    render = (x, y, char) => {
+        this.gl.fillStyle = "black";
+        this.gl.fillRect( ((x-1)*this.cw), ((y-1)*this.ch), this.cw*2, this.ch+1);
+
         this.gl.fillStyle = "green";
-        this.os.draw();
-        this.gl.restore();
-        window.requestAnimationFrame(this.draw);
+        this.gl.fillText(char, (x-1)*this.cw, ((y-1)*this.ch)+this.y_offset);
     }
 
     //shutsdown the app
@@ -92,7 +106,7 @@ class Bios {
     setSize = size => {
         this.size = size;
 
-        this.ch = size * 1.1;
+        this.ch = size * 1.2;
         this.cw = size * 0.6;
 
         this.y_offset = size * 0.9;
@@ -103,6 +117,7 @@ class Bios {
         this.grow(true);
     }
 
+    //TODO: Save output so far to prevent clear on resize;
     grow = (width = false) => {
         if(this.gl) {
             if(width) {
@@ -132,6 +147,11 @@ class Bios {
 
         }
     }
+
+    width = () => Math.floor(this.gl.canvas.width / this.cw);
+    height = () => Math.floor(this.gl.canvas.height / this.ch);
+
+    sleep = (s=100) => new Promise(r => window.setTimeout(r, s))
 }
 
 export default Bios;
