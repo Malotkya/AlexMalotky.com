@@ -45,7 +45,7 @@ class App {
     main(terminal, args) {
         let cmd = args.join(" ");
 
-        let app = terminal.apps[args[0]];
+        let app = terminal.apps[args[0].toLowerCase()];
 
         if(app === undefined) {
             terminal.println("Unkown Command!");
