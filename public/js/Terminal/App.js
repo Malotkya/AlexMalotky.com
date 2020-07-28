@@ -7,6 +7,8 @@ class App {
             list: [],
             location: -1
         }
+
+        this.running = true;
     }
 
     // Move through the array of past inputs and show the current selected
@@ -28,6 +30,8 @@ class App {
 
             return this.history.list[this.history.location];
         }
+
+        return null;
     };
 
     // Adds command to history array and prints it to the dom
@@ -42,29 +46,23 @@ class App {
     //
     // @param: terminal - used to access terminal functions (usually println)
     // @param: args - arguments passed as an array
-    main(terminal, args) {
-        let cmd = args.join(" ");
+    main = async (terminal, args) => {
+        while(this.running) {
+            terminal.print("$: ")
+            let input = await terminal.getln();
+            let cmd = input.split("/s");
 
-        let app = terminal.apps[args[0].toLowerCase()];
+            let app = terminal.apps[cmd[0].toLowerCase()];
 
-        if(app === undefined) {
-            terminal.println("Unkown Command!");
-        } else {
-            terminal.callstack.push(app);
-            terminal.run(cmd);
+            if(app === undefined) {
+                terminal.println("Unknown Command!");
+            } else {
+                terminal.callstack.push(app);
+                await terminal.run(cmd);
+            }
         }
-
-        return true;
     }
 
-    // Overrideable function to draw over the terminal
-    //
-    // @param bios to draw to
-    // @return false - if not drawing
-    //         true - if drawing
-    draw = bios => {
-        return false;
-    }
 }
 
 export default App;
