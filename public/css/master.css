@@ -63,3 +63,9 @@ header, footer {
     padding: 0.25em;
     background-color: #343a40;
 }
+
+#terminal {
+    max-height: 75vh;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
