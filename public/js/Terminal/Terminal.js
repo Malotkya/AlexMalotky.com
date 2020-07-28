@@ -1,7 +1,7 @@
-import * as Keyboard from './Keyboard.js';
-import {help, reset, exit, about} from './Prebuilt.js';
+import * as Keyboard from './Base/Keyboard.js';
+import {help, reset, exit, about} from './Base/Prebuilt.js';
 import App from './App.js'
-import Bios from './Bios.js'
+import Bios from './Base/Bios.js'
 
 class Terminal {
     // Loads the bios and main App
