@@ -14,6 +14,7 @@ class Terminal {
         this.callstack = [];
 
         this.callstack.push(new App());
+        this.password = false;
 
         this.reset();
         this.init();
@@ -61,10 +62,10 @@ class Terminal {
             let buffer = new App(call, description);
             buffer.main = callback;
 
-            if(this.apps[call])
+            if(this.apps[call.toLowerCase()])
                 throw new Error("Call is already in use");
 
-            this.apps[call] = buffer;
+            this.apps[call.toLowerCase()] = buffer;
         }
     }
 
@@ -75,10 +76,10 @@ class Terminal {
         if( (typeof app.call === "string") && (typeof app.description === "string")
                 && (typeof app.main === "function") ){
 
-            if(this.apps[app.call])
+            if(this.apps[app.call.toLowerCase()])
                 throw new Error("Call is already in use");
 
-            this.apps[app.call] = app;
+            this.apps[app.call.toLowerCase()] = app;
         }
     }
 
@@ -122,7 +123,8 @@ class Terminal {
     event = key => {
             switch (key) {
             case Keyboard.ENTER:
-                this.println(this.input.preCursor + this.input.value);
+                if( !this.password )
+                    this.println(this.input.preCursor + this.input.value);
                 this.run(this.input.value);
                 this.input.value = "";
                 break;
@@ -149,8 +151,13 @@ class Terminal {
     // If the top of the call stack passes, the terminal will draw the input and output
     draw = () => {
         if( !this.current().draw(this.bios) ) {
-            this.bios.print(this.input.x, this.input.y,
-                        this.input.preCursor + this.input.value  + this.input.cursor);
+            if(this.password) {
+                this.bios.print(this.input.x, this.input.y,
+                            this.input.preCursor + this.input.cursor);
+            } else {
+                this.bios.print(this.input.x, this.input.y,
+                            this.input.preCursor + this.input.value  + this.input.cursor);
+            }
 
             let index = this.output.list.length-1;
             let y = this.input.y-1;
