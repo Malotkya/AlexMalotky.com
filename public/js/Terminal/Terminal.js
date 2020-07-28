@@ -1,19 +1,22 @@
 import * as Keyboard from './Base/Keyboard.js';
 import {help, reset, exit, about} from './Base/Prebuilt.js';
-import App from './App.js'
-import Bios from './Base/Bios.js'
+import App from './App.js';
+import Bios from './Base/Bios.js';
+import InputStream from './Base/InputStream.js';
 
 class Terminal {
     // Loads the bios and main App
     //
     // @param: the target canvas to draw too
     constructor(target) {
-        this.test = 0;
 
         this.bios = new Bios(target, this);
-        this.callstack = [];
 
+        this.callstack = [];
         this.callstack.push(new App());
+
+        this.input = new InputStream(this.bios);
+
         this.password = false;
 
         this.reset();
@@ -34,21 +37,14 @@ class Terminal {
     // Adds the string to output to be printed and adds a new line char
     //
     // @param input string to print
-    println = input => {
-        this.output.list.push(input);
-        this.output.newline = true;
-    }
+    println = input => this.print(input + "\n");
 
     // Adds the string to output to be printed
     //
     // @param input string to print
     print = input => {
-        if(this.output.newline) {
-            this.output.list.push(input);
-        } else {
-            this.output.list[this.output.list.length-1] += input;
-        }
-        this.output.newline = false;
+        this.bios.print(input);
+        this.input.clear();
     }
 
     // Adds function to be called from the terminal
@@ -83,32 +79,13 @@ class Terminal {
         }
     }
 
-    //Changes the precursor of the terminal
-    //
-    // @param string for precursor
-    setPreCursor = string => {
-        this.input.preCursor = string;
-    }
-
     // Runs the command that is inputed
     //
     // @param cmd in string form
-    run = cmd => {
-        let args = cmd.split(/\s+/);
-
-        this.current().addToHistory(cmd);
-
-
-        let loop = this.current().main(this, args);
-
-        if(loop !== undefined) {
-            if( !loop ) {
-                this.callstack.pop();
-            }
-        } else {
-            this.callstack.pop();
-        }
-    };
+    run = async(args) => {
+        this.input.clear();
+        this.current().main(this, args);
+    }
 
     //Gets the top of the callstack
     current = () => this.callstack[this.callstack.length-1];
@@ -121,73 +98,39 @@ class Terminal {
     //
     // @param event used to get key code
     event = key => {
-            switch (key) {
-            case Keyboard.ENTER:
-                if( !this.password )
-                    this.println(this.input.preCursor + this.input.value);
-                this.run(this.input.value);
-                this.input.value = "";
-                break;
-
+        let update = "";
+        switch (key) {
             case Keyboard.BACK_SPACE:
-                this.input.value = this.input.value.slice(0, -1);
+                this.input.remove();
                 break;
 
             case Keyboard.ARROW_UP:
-                this.input.value = this.current().moveHistory(-1);
+                this.input.set( this.current().moveHistory(-1) );
                 break;
 
             case Keyboard.ARROW_DOWN:
-                this.input.value = this.current().moveHistory(1);
+                this.input.set( this.current().moveHistory(1) );
                 break;
 
+            case Keyboard.ENTER:
+                this.bios.y++;
+                this.bios.x=1;
             default:
-                this.input.value += Keyboard.getKeyPressed(key);
+                this.input.add( Keyboard.getKeyPressed(key) );
                 break;
         }
     };
 
-    // Gives the top of the call stack a chance to draw
-    // If the top of the call stack passes, the terminal will draw the input and output
-    draw = () => {
-        if( !this.current().draw(this.bios) ) {
-            if(this.password) {
-                this.bios.print(this.input.x, this.input.y,
-                            this.input.preCursor + this.input.cursor);
-            } else {
-                this.bios.print(this.input.x, this.input.y,
-                            this.input.preCursor + this.input.value  + this.input.cursor);
-            }
-
-            let index = this.output.list.length-1;
-            let y = this.input.y-1;
-            while(index >= 0 && y > 0) {
-                this.bios.print(1,y,this.output.list[index]);
-
-                index--;
-                y--;
-            }
-        }
-    }
-
     //Resets the input and output
     reset = () => {
-        this.input = {
-            x:1,
-            y:30,
-            value:"",
-            preCursor: "$: ",
-            cursor: "█"
-        };
 
-        this.output = {
-            list: [],
-            newline:true
-        };
     }
 
     //Calls to shutdown the app.
     close = () => this.bios.shutdown();
+
+    get = async(char = " ") => await this.input.get(char);
+    getln = async() => await this.input.getln();
 
 };
 
