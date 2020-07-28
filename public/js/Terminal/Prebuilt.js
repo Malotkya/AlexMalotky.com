@@ -1,6 +1,8 @@
 export const help = (terminal, args) => {
-    for(const key in terminal.functions.description) {
-        terminal.println(`${key} - ${terminal.functions.description[key]}`);
+    for(const key in terminal.apps) {
+        let app = terminal.apps[key];
+        if(app.description !== undefined)
+            terminal.println(`${key} - ${app.description}`);
     }
 }
 
