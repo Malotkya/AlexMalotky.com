@@ -17,8 +17,6 @@ class Terminal {
 
         this.input = new InputStream(this.bios);
 
-        this.password = false;
-
         this.reset();
         this.init();
     };
@@ -84,7 +82,7 @@ class Terminal {
     // @param cmd in string form
     run = async(args) => {
         this.input.clear();
-        this.current().main(this, args);
+        return await this.current().main(this, args);
     }
 
     //Gets the top of the callstack
@@ -129,8 +127,9 @@ class Terminal {
     //Calls to shutdown the app.
     close = () => this.bios.shutdown();
 
-    get = async(char = " ") => await this.input.get(char);
+    get = async(char = "/s") => await this.input.get(char);
     getln = async() => await this.input.getln();
+    getPassword = async() => await this.input.getPassword();
 
 };
 

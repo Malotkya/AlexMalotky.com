@@ -7,49 +7,58 @@ class InputStream {
 
         this.x = this.bios.x;
         this.y = this.bios.y;
+
+        this.password = false;
     }
 
     add = char => {
         this.stream += char;
 
-        this.bios.render(this.x, this.y, char);
+        if(!this.password) {
+            this.bios.render(this.x, this.y, char);
 
-        this.x++;
-        if(this.x > this.bios.width()) {
-            this.x = 1;
-            this.y++;
+            this.x++;
+            if(this.x > this.bios.width()) {
+                this.x = 1;
+                this.y++;
+            }
+
+            if(this.y > this.bios.height()) {
+                this.bios.grow();
+            }
+
+            if(char != "\n" && char != '\r')
+                this.bios.render(this.x, this.y, this.cursor);
         }
-
-        if(this.y > this.bios.height()) {
-            this.bios.grow();
-        }
-
-        if(char != "\n" && char != '\r')
-            this.bios.render(this.x, this.y, this.cursor);
-
     }
 
     remove = () => {
-        if(this.stream.length > 0) {
+        if(this.stream.length > 0 && !this.password) {
             this.x--;
             if(this.x < 1) {
                 this.x = this.bios.width();
                 this.y--;
             }
 
-            this.stream = this.stream.slice(0, -1);
             this.bios.render(this.x, this.y, this.cursor);
+
+            this.stream = this.stream.slice(0, -1);
         }
     }
 
     set = string => {
-
+        if(!this.password) {
+            //do something
+        }
     }
 
-    clear = () => {
+    clear = (p) => {
         this.stream = "";
         this.x = this.bios.x;
         this.y = this.bios.y;
+
+        if(p !== undefined)
+            this.password = p;
 
         this.bios.render(this.x, this.y, this.cursor);
     }
@@ -88,6 +97,13 @@ class InputStream {
 
             await this.bios.sleep();
         }
+    }
+
+    getPassword = async () => {
+        this.clear(true);
+        let output = await this.getln();
+        this.clear(false);
+        return output;
     }
 };
 
