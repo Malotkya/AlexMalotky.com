@@ -7,9 +7,6 @@ const height = 30;
 class Bios {
     //Sets up the draw library and all of the event captures
     //
-    // TODO: remove jquery elements as the css is minimally accessed now and instead
-    //       using a 2D web graphics library.
-    //
     // @param: target - canvas to draw to
     // @param: os - class that uses the bios to handel inputs and outputs.
     constructor(target, os) {
@@ -25,12 +22,12 @@ class Bios {
         this.gl.canvas.addEventListener("keydown", this.onKeyDown);
         this.gl.canvas.addEventListener("keyup", this.onKeyUp)
         this.gl.canvas.addEventListener("keypress", this.onKeyPress);
-        //target.mouseover()
 
         this.x = 1;
         this.y = 1;
 
         this.gl.fillStyle = "green";
+        window.requestAnimationFrame(this.render);
     }
 
     // Handels key down event and calls keyPress and keyUp for certain keys like
@@ -69,13 +66,14 @@ class Bios {
 
     //Prints the string at the x and y cordinet based on a grid of chars
     print = string => {
+
         for(let i=0; i<string.length; i++) {
             let char = string.charAt(i);
             if(char == '\n' || char == '\r') {
                 this.x = 1;
                 this.y++;
             } else {
-                this.render(this.x,this.y,char);
+                this.put(this.x,this.y,char);
                 this.x++;
                 if(this.x > this.width()) {
                     this.x = 1;
@@ -89,7 +87,7 @@ class Bios {
         }
     }
 
-    render = (x, y, char) => {
+    put = (x, y, char) => {
         this.gl.fillStyle = "black";
         this.gl.fillRect( ((x-1)*this.cw), ((y-1)*this.ch), this.cw*2, this.ch+1);
 
@@ -120,6 +118,8 @@ class Bios {
     //TODO: Save output so far to prevent clear on resize;
     grow = (width = false) => {
         if(this.gl) {
+            let buffer = this.clear();
+
             if(width) {
                 this.gl.canvas.width = this.target.width;
             } else {
@@ -127,6 +127,7 @@ class Bios {
             }
 
             this.gl.font = `${this.size}px monospace`;
+            this.gl.putImageData(buffer, 0, 0);
         } else {
             let canvas = document.createElement("canvas");
 
@@ -151,7 +152,24 @@ class Bios {
     width = () => Math.floor(this.gl.canvas.width / this.cw);
     height = () => Math.floor(this.gl.canvas.height / this.ch);
 
-    sleep = (s=100) => new Promise(r => window.setTimeout(r, s))
+    sleep = (s=100) => new Promise(r => window.setTimeout(r, s));
+
+    clear = () => {
+        this.gl.fillStyle = "black";
+        this.gl.fillRect( ((this.x-1)*this.cw), ((this.y-1)*this.ch), this.gl.canvas.width, this.ch*2);
+        this.gl.fillRect( 0, (this.y*this.ch), this.gl.canvas.width, this.gl.canvas.height);
+
+        let buffer = this.gl.getImageData(0,0,this.gl.canvas.width, this.gl.canvas.height);
+        this.gl.fillStyle = "green";
+
+        return buffer;
+    }
+
+    render = () => {
+        this.gl.putImageData( this.clear(), 0, 0 );
+        this.os.render();
+        window.requestAnimationFrame(this.render);
+    }
 }
 
 export default Bios;
