@@ -1,14 +1,16 @@
 import Terminal from './Terminal/Terminal.js';
-import App from "./Terminal/App.js"
+import System from "./Terminal/System.js";
+import App from "./Terminal/App.js";
 
 window.onload = () => {
 
-    let terminal = new Terminal(document.querySelector("#terminal"));
+    let system = new System(document.querySelector("#terminal"));
+    let terminal = new Terminal(system);
 
-    terminal.println("Welcome to AlexMalotky.com");
-    terminal.addApp(new Password());
+    system.println("Welcome to AlexMalotky.com");
+    system.addApp(new Password());
 
-    terminal.run().catch(e => {
+    system.run().catch(e => {
         console.error(e);
     });
 };
