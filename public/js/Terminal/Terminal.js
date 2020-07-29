@@ -22,7 +22,7 @@ class Terminal extends App {
 
     main = async (system, args) => {
         while(this.running) {
-            system.print("$: ")
+            system.print("\n$: ")
             let input = await system.getln();
 
             let cmd = input.split(/\s+/);
