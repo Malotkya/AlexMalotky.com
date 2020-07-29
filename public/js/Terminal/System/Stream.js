@@ -8,7 +8,10 @@ class Stream {
 
     remove = () => this.buffer = this.buffer.slice(0, -1);
 
-    set = string => this.buffer = string;
+    set = string => {
+        if(typeof string === "string")
+            this.buffer = string;
+    }
 
     clear = () => {
         this.stream += this.buffer;

@@ -12,6 +12,13 @@ class Bios {
     constructor(target, os) {
         this.os = os;
 
+        this.overrideKey = [
+            Keyboard.BACK_SPACE,
+            Keyboard.SPACE_BAR,
+            Keyboard.ARROW_UP,
+            Keyboard.ARROW_DOWN
+        ];
+
         this.target = target;
 
         this.setSize(15);
@@ -38,8 +45,8 @@ class Bios {
         let code = Keyboard.getKeyCode(event);
         Keyboard.reportKeyDown(code);
 
-        //Prevents page from navigating when backspace or spacebar are pressed
-        if(code == Keyboard.BACK_SPACE || code == Keyboard.SPACE_BAR) {
+        //Prevents browser default action for some keys like backspace and spacebar
+        if(this.overrideKey.includes(code)) {
             event.preventDefault();
             this.onKeyPress(event);
             this.onKeyUp(event);
