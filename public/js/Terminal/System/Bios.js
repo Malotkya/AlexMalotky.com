@@ -1,5 +1,6 @@
 import * as Keyboard from './Keyboard.js';
 import * as Mouse from './Mouse.js';
+import * as Default from './Defaults.js';
 
 class Bios {
     //Sets up the draw library and all of the event captures
@@ -18,10 +19,13 @@ class Bios {
 
         this.target = target;
 
-        this.width = 100;
-        this.height = 30;
+        this.width = Default.SCREEN_WIDTH;
+        this.height = Default.SCREEN_HEIGHT;
 
-        this.setSize(15);
+        this.background = Default.COLOR_BACKGROUND;
+        this.font = Default.COLOR_FONT;
+
+        this.setSize(Default.FONT_SIZE);
 
         //Events
         this.gl.canvas.tabIndex = 1;
@@ -32,7 +36,7 @@ class Bios {
         this.x = 1;
         this.y = 1;
 
-        this.gl.fillStyle = "green";
+        this.gl.fillStyle = this.font;
         window.requestAnimationFrame(this.render);
 
         this.gl.canvas.focus();
@@ -96,10 +100,10 @@ class Bios {
     }
 
     put = (x, y, char) => {
-        this.gl.fillStyle = "black";
+        this.gl.fillStyle = this.background;
         this.gl.fillRect( ((x-1)*this.cw), ((y-1)*this.ch), this.cw*2, this.ch+1);
 
-        this.gl.fillStyle = "green";
+        this.gl.fillStyle = this.font;
         this.gl.fillText(char, (x-1)*this.cw, ((y-1)*this.ch)+this.y_offset);
     }
 
@@ -175,12 +179,12 @@ class Bios {
     sleep = (s=100) => new Promise(r => window.setTimeout(r, s));
 
     clear = () => {
-        this.gl.fillStyle = "black";
+        this.gl.fillStyle = this.background;
         this.gl.fillRect( ((this.x-1)*this.cw), ((this.y-1)*this.ch), this.gl.canvas.width, this.ch*2);
         this.gl.fillRect( 0, (this.y*this.ch), this.gl.canvas.width, this.gl.canvas.height);
 
         let buffer = this.gl.getImageData(0,0,this.gl.canvas.width, this.gl.canvas.height);
-        this.gl.fillStyle = "green";
+        this.gl.fillStyle = this.font;
 
         return buffer;
     }
@@ -190,6 +194,9 @@ class Bios {
         this.os.render();
         window.requestAnimationFrame(this.render);
     }
+
+    setBackGroundColor = color => this.background = color;
+    setFontColor = color => this.font = color;
 }
 
 export default Bios;
