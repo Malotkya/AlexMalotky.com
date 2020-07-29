@@ -145,12 +145,12 @@ class System {
                 }
 
                 x++;
-                if(x > this.bios.width()) {
+                if(x > this.bios.width) {
                     x = 0;
                     y++;
                 }
 
-                if(y > this.bios.height()) {
+                if(y > this.bios.height) {
                     this.bios.grow();
                 }
             }

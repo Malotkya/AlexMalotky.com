@@ -1,9 +1,6 @@
 import * as Keyboard from './Keyboard.js';
 import * as Mouse from './Mouse.js';
 
-const width = 100;
-const height = 30;
-
 class Bios {
     //Sets up the draw library and all of the event captures
     //
@@ -20,6 +17,9 @@ class Bios {
         ];
 
         this.target = target;
+
+        this.width = 100;
+        this.height = 30;
 
         this.setSize(15);
         this.gl.canvas.focus();
@@ -82,12 +82,12 @@ class Bios {
             } else {
                 this.put(this.x,this.y,char);
                 this.x++;
-                if(this.x > this.width()) {
+                if(this.x > this.width) {
                     this.x = 1;
                     this.y++;
                 }
 
-                if(this.y > this.height()) {
+                if(this.y > this.totalHeight()) {
                     this.grow();
                 }
             }
@@ -116,10 +116,20 @@ class Bios {
 
         this.y_offset = size * 0.9;
 
-        this.target.width = (width * this.cw) + (size * 0.15);
-        this.target.height = (height * this.ch) + (size * 0.15);
+        this.setWidth(this.width);
+        this.setHeight(this.height);
 
         this.grow(true);
+    }
+
+    setWidth = width => {
+        this.width = width;
+        this.target.width = (width * this.cw) + (this.size * 0.15);
+    }
+
+    setHeight = height => {
+        this.height = height;
+        this.target.height = (height * this.ch) + (this.size * 0.15);
     }
 
     //TODO: Save output so far to prevent clear on resize;
@@ -156,8 +166,7 @@ class Bios {
         }
     }
 
-    width = () => Math.floor(this.gl.canvas.width / this.cw);
-    height = () => Math.floor(this.gl.canvas.height / this.ch);
+    totalHeight = () => Math.floor(this.gl.canvas.height / this.ch);
 
     sleep = (s=100) => new Promise(r => window.setTimeout(r, s));
 
