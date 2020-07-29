@@ -63,6 +63,8 @@ class App {
         }
     }
 
+    render = bios => false;
+
 }
 
 export default App;
