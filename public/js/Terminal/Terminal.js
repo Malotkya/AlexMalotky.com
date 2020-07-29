@@ -1,185 +1,44 @@
-import * as Keyboard from './Base/Keyboard.js';
-import {help, reset, exit, about} from './Base/Prebuilt.js';
-import App from './App.js';
-import Bios from './Base/Bios.js';
-import InputStream from './Base/InputStream.js';
-import OutputStream from './Base/OutputStream.js';
+import App from "./App.js";
+import Help from "./Terminal/Help.js";
+import Reset from "./Terminal/Reset.js";
+import Exit from "./Terminal/Exit.js";
+import About from "./Terminal/About.js";
+import Settings from "./Terminal/Settings.js";
 
-class Terminal {
-    // Loads the bios and main App
-    //
-    // @param: the target canvas to draw too
-    constructor(target) {
+class Terminal extends App {
+    constructor(system){
+        super(null, null);
 
-        this.bios = new Bios(target, this);
+        this.running = true;
 
-        this.callstack = [];
-        this.callstack.push(new App());
+        system.addApp(new Help());
+        system.addApp(new Reset());
+        system.addApp(new Exit());
+        system.addApp(new About());
+        system.addApp(new Settings());
 
-        this.input = new InputStream(this.bios);
-        this.output = new OutputStream(this.bios);
-
-        this.password = false;
-
-        this.reset();
-        this.init();
-    };
-
-    // Load the pre built functions
-    init = () => {
-
-        this.apps = [];
-
-        this.addFunction("help", "Displays this list of functions", help);
-        this.addFunction("exit", "Closes the tab", exit);
-        this.addFunction("reset", "Resets the display", reset);
-        this.addFunction("about", "Displays more info about this app", about);
-    };
-
-    // Adds the string to output to be printed and adds a new line char
-    //
-    // @param input string to print
-    println = input => this.print(input + "\n");
-
-    // Adds the string to output to be printed
-    //
-    // @param input string to print
-    print = input => {
-        this.output.add(input);
-        this.input.clear();
+        system.callstack.push(this);
     }
 
-    // Adds function to be called from the terminal
-    //
-    // @param call of the function
-    // @param description of the function being added
-    // @param callback pointing to the function
-    addFunction = (call,description,callback) => {
-        if( (typeof call === "string") && (typeof description === "string")
-                && (typeof callback === "function") ){
-            let buffer = new App(call, description);
-            buffer.main = callback;
+    main = async (system, args) => {
+        while(this.running) {
+            system.print("$: ")
+            let input = await system.getln();
 
-            if(this.apps[call.toLowerCase()])
-                throw new Error("Call is already in use");
+            let cmd = input.split(/\s+/);
+            this.addToHistory(input);
 
-            this.apps[call.toLowerCase()] = buffer;
-        }
-    }
+            let app = system.apps[cmd[0].toLowerCase()];
 
-    // Adds an app to the function list that can be called from the Terminal
-    //
-    // @param app to be added to the Terminal
-    addApp = app => {
-        if( (typeof app.call === "string") && (typeof app.description === "string")
-                && (typeof app.main === "function") ){
-
-            if(this.apps[app.call.toLowerCase()])
-                throw new Error("Call is already in use");
-
-            this.apps[app.call.toLowerCase()] = app;
-        }
-    }
-
-    // Runs the command that is inputed
-    //
-    // @param cmd in string form
-    run = async(args) => {
-        this.output.clear();
-        this.input.clear();
-        return await this.current().main(this, args);
-    }
-
-    //Gets the top of the callstack
-    current = () => this.callstack[this.callstack.length-1];
-
-    // Gets keycode of event and acts accordingly to appropriate key
-    //
-    // Keyboard.ENTER      => runs command entered in the input
-    // Keyboard.UP_ARROW   => moves back through history
-    // Keyboard.DOWN_ARROW => moves forward through history
-    //
-    // @param event used to get key code
-    event = key => {
-        let update = "";
-        switch (key) {
-            case Keyboard.BACK_SPACE:
-                this.input.remove();
-                break;
-
-            case Keyboard.ARROW_UP:
-                this.input.set( this.current().moveHistory(-1) );
-                break;
-
-            case Keyboard.ARROW_DOWN:
-                this.input.set( this.current().moveHistory(1) );
-                break;
-
-            case Keyboard.ENTER:
-                this.input.add( Keyboard.getKeyPressed(key) );
-                if(!this.password)
-                    this.output.add(this.input.buffer);
-                this.input.clear();
-                break;
-
-            default:
-                this.input.add( Keyboard.getKeyPressed(key) );
-                break;
-        }
-    };
-
-    //Resets the input and output
-    reset = () => {
-
-    }
-
-    //Calls to shutdown the app.
-    close = () => this.bios.shutdown();
-
-    get = async(char = "/s") => await this.input.get(char);
-    getln = async() => await this.input.getln();
-    getPassword = async() => {
-        this.password = true;
-        let output = await this.input.getln();
-        this.password = false;
-        return output;
-    }
-
-    render = () => {
-        if( !this.current().render(this.bios)) {
-
-            let x = this.bios.x;
-            let y = this.bios.y;
-
-            let output = char => {
-                if(char == '\n' || char == '\r') {
-                    x = 0;
-                    y++;
-                }  else {
-                    this.bios.put(x,y,char);
-                }
-
-                x++;
-                if(x > this.bios.width()) {
-                    x = 0;
-                    y++;
-                }
-
-                if(y > this.bios.height()) {
-                    this.bios.grow();
-                }
+            if(app === undefined) {
+                system.println("Unknown Command!");
+            } else {
+                system.callstack.push(app);
+                await system.run(cmd);
+                system.callstack.pop();
             }
-
-            [...this.output.buffer].forEach(char => output(char));
-
-            if( !this.password) {
-                [...this.input.buffer].forEach(char => output(char));
-            }
-
-            this.bios.put(x, y, this.input.cursor);
         }
     }
-
-};
+}
 
 export default Terminal;

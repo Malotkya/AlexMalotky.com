@@ -7,8 +7,6 @@ class App {
             list: [],
             location: -1
         }
-
-        this.running = true;
     }
 
     // Move through the array of past inputs and show the current selected
@@ -39,29 +37,14 @@ class App {
     // @param string form of the command
     addToHistory = string => {
         this.history.list.push(string);
-        this.history.location = this.history.length;
+        this.history.location = this.history.list.length;
     };
 
     // Overrideable main function
     //
-    // @param: terminal - used to access terminal functions (usually println)
+    // @param: system - used to access system functions (usually println)
     // @param: args - arguments passed as an array
-    main = async (terminal, args) => {
-        while(this.running) {
-            terminal.print("$: ")
-            let input = await terminal.getln();
-            let cmd = input.split("/s");
-
-            let app = terminal.apps[cmd[0].toLowerCase()];
-
-            if(app === undefined) {
-                terminal.println("Unknown Command!");
-            } else {
-                terminal.callstack.push(app);
-                await terminal.run(cmd);
-            }
-        }
-    }
+    main = async (system, args) => system.println("Hello World!");
 
     render = bios => false;
 
