@@ -138,15 +138,16 @@ class System {
 
             let output = char => {
                 if(char == '\n' || char == '\r') {
-                    x = 0;
+                    x = 1;
                     y++;
                 }  else {
                     this.bios.put(x,y,char);
+                    x++;
                 }
 
-                x++;
-                if(x > this.bios.width) {
-                    x = 0;
+
+                if(x >= this.bios.width) {
+                    x = 1;
                     y++;
                 }
 

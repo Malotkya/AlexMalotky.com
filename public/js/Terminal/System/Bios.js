@@ -22,7 +22,6 @@ class Bios {
         this.height = 30;
 
         this.setSize(15);
-        this.gl.canvas.focus();
 
         //Events
         this.gl.canvas.tabIndex = 1;
@@ -35,6 +34,8 @@ class Bios {
 
         this.gl.fillStyle = "green";
         window.requestAnimationFrame(this.render);
+
+        this.gl.canvas.focus();
     }
 
     // Handels key down event and calls keyPress and keyUp for certain keys like
@@ -82,7 +83,7 @@ class Bios {
             } else {
                 this.put(this.x,this.y,char);
                 this.x++;
-                if(this.x > this.width) {
+                if(this.x >= this.width) {
                     this.x = 1;
                     this.y++;
                 }
@@ -125,11 +126,14 @@ class Bios {
     setWidth = width => {
         this.width = width;
         this.target.width = (width * this.cw) + (this.size * 0.15);
+        this.target.style.width = `${this.target.width}px`
+
     }
 
     setHeight = height => {
         this.height = height;
         this.target.height = (height * this.ch) + (this.size * 0.15);
+        this.target.style.height = `${this.target.height}px`
     }
 
     //TODO: Save output so far to prevent clear on resize;
