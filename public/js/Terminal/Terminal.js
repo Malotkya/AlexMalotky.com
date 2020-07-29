@@ -3,6 +3,7 @@ import {help, reset, exit, about} from './Base/Prebuilt.js';
 import App from './App.js';
 import Bios from './Base/Bios.js';
 import InputStream from './Base/InputStream.js';
+import OutputStream from './Base/OutputStream.js';
 
 class Terminal {
     // Loads the bios and main App
@@ -16,6 +17,9 @@ class Terminal {
         this.callstack.push(new App());
 
         this.input = new InputStream(this.bios);
+        this.output = new OutputStream(this.bios);
+
+        this.password = false;
 
         this.reset();
         this.init();
@@ -41,7 +45,7 @@ class Terminal {
     //
     // @param input string to print
     print = input => {
-        this.bios.print(input);
+        this.output.add(input);
         this.input.clear();
     }
 
@@ -81,6 +85,7 @@ class Terminal {
     //
     // @param cmd in string form
     run = async(args) => {
+        this.output.clear();
         this.input.clear();
         return await this.current().main(this, args);
     }
@@ -111,8 +116,11 @@ class Terminal {
                 break;
 
             case Keyboard.ENTER:
-                this.bios.y++;
-                this.bios.x=1;
+                this.input.add( Keyboard.getKeyPressed(key) );
+                this.output.add(this.input.buffer);
+                this.input.clear();
+                break;
+
             default:
                 this.input.add( Keyboard.getKeyPressed(key) );
                 break;
@@ -129,7 +137,44 @@ class Terminal {
 
     get = async(char = "/s") => await this.input.get(char);
     getln = async() => await this.input.getln();
-    getPassword = async() => await this.input.getPassword();
+    getPassword = async() => {
+        this.password = true;
+        let output = await this.input.geln();
+        this.password = false;
+        return output;
+    }
+
+    render = () => {
+        if( !this.password && !this.current().render(this.bios)) {
+
+            let x = this.bios.x;
+            let y = this.bios.y;
+
+            let output = char => {
+                if(char == '\n' || char == '\r') {
+                    x = 0;
+                    y++;
+                }  else {
+                    this.bios.put(x,y,char);
+                }
+
+                x++;
+                if(x > this.bios.width()) {
+                    x = 0;
+                    y++;
+                }
+
+                if(y > this.bios.height()) {
+                    this.bios.grow();
+                }
+            }
+
+            [...this.output.buffer].forEach(char => output(char));
+            [...this.input.buffer].forEach(char => output(char));
+
+            this.bios.put(x, y, this.input.cursor);
+        }
+    }
 
 };
 
