@@ -117,7 +117,8 @@ class Terminal {
 
             case Keyboard.ENTER:
                 this.input.add( Keyboard.getKeyPressed(key) );
-                this.output.add(this.input.buffer);
+                if(!this.password)
+                    this.output.add(this.input.buffer);
                 this.input.clear();
                 break;
 
@@ -139,13 +140,13 @@ class Terminal {
     getln = async() => await this.input.getln();
     getPassword = async() => {
         this.password = true;
-        let output = await this.input.geln();
+        let output = await this.input.getln();
         this.password = false;
         return output;
     }
 
     render = () => {
-        if( !this.password && !this.current().render(this.bios)) {
+        if( !this.current().render(this.bios)) {
 
             let x = this.bios.x;
             let y = this.bios.y;
@@ -170,7 +171,10 @@ class Terminal {
             }
 
             [...this.output.buffer].forEach(char => output(char));
-            [...this.input.buffer].forEach(char => output(char));
+
+            if( !this.password) {
+                [...this.input.buffer].forEach(char => output(char));
+            }
 
             this.bios.put(x, y, this.input.cursor);
         }
