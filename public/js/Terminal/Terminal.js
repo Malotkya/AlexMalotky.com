@@ -15,7 +15,7 @@ class Terminal extends App {
         system.addApp(new Reset());
         system.addApp(new Exit());
         system.addApp(new About());
-        system.addApp(new Settings());
+        system.addApp(new Settings(system.bios));
 
         system.callstack.push(this);
     }
