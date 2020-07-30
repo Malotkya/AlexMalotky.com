@@ -33,6 +33,8 @@ class Bios {
         this.gl.canvas.addEventListener("keyup", this.onKeyUp)
         this.gl.canvas.addEventListener("keypress", this.onKeyPress);
 
+        //this.target.addEventListener("scroll", this.onScroll);
+
         this.x = 1;
         this.y = 1;
 
@@ -54,7 +56,7 @@ class Bios {
         if(this.overrideKey.includes(code)) {
             event.preventDefault();
             this.onKeyPress(event);
-            this.onKeyUp(event);
+            //this.onKeyUp(event);
         }
     }
 
@@ -87,7 +89,7 @@ class Bios {
             } else {
                 this.put(this.x,this.y,char);
                 this.x++;
-                if(this.x >= this.width) {
+                if(this.x > this.width) {
                     this.x = 1;
                     this.y++;
                 }
@@ -100,11 +102,19 @@ class Bios {
     }
 
     put = (x, y, char) => {
-        this.gl.fillStyle = this.background;
-        this.gl.fillRect( ((x-1)*this.cw), ((y-1)*this.ch), this.cw*2, this.ch+1);
-
         this.gl.fillStyle = this.font;
-        this.gl.fillText(char, (x-1)*this.cw, ((y-1)*this.ch)+this.y_offset);
+        this.gl.fillText(char, (x-1)*this.cw, (y*this.ch));
+    }
+
+    view = () => {;
+        let top = (this.y-1) * this.ch;
+
+        //Have to wait for the growth to render.
+        window.setTimeout(()=>this.target.scrollTop = top+1, 10);
+
+        this.gl.fillStyle = this.background;
+        this.gl.fillRect( 0, top+1, this.gl.canvas.width, this.gl.canvas.height);
+        this.gl.fillStyle = this.font;
     }
 
     //shutsdown the app
@@ -116,10 +126,8 @@ class Bios {
     setSize = size => {
         this.size = size;
 
-        this.ch = size * 1.2;
+        this.ch = size;
         this.cw = size * 0.6;
-
-        this.y_offset = size * 0.9;
 
         this.setWidth(this.width);
         this.setHeight(this.height);
@@ -129,14 +137,14 @@ class Bios {
 
     setWidth = width => {
         this.width = width;
-        this.target.width = (width * this.cw) + (this.size * 0.15);
+        this.target.width = ((width+1) * this.cw);
         this.target.style.width = `${this.target.width}px`
 
     }
 
     setHeight = height => {
         this.height = height;
-        this.target.height = (height * this.ch) + (this.size * 0.15);
+        this.target.height = (height * this.ch);
         this.target.style.height = `${this.target.height}px`
     }
 
@@ -155,6 +163,7 @@ class Bios {
             this.gl.putImageData(buffer, 0, 0);
         } else {
             let canvas = document.createElement("canvas");
+            //canvas.style.position = "absolute";
 
             this.target.innerHTML = "";
             this.target.appendChild(canvas);
@@ -174,13 +183,17 @@ class Bios {
         }
     }
 
+    scroll = (amount = 1) => {
+        this.target.scrollBy(0, (amount + 0.1) * this.ch)
+    }
+
     totalHeight = () => Math.floor(this.gl.canvas.height / this.ch);
 
     sleep = (s=100) => new Promise(r => window.setTimeout(r, s));
 
     clear = () => {
         this.gl.fillStyle = this.background;
-        this.gl.fillRect( ((this.x-1)*this.cw), ((this.y-1)*this.ch), this.gl.canvas.width, this.ch*2);
+        this.gl.fillRect( ((this.x-1)*this.cw), ((this.y-0.5)*this.ch), this.gl.canvas.width, this.ch*2);
         this.gl.fillRect( 0, (this.y*this.ch), this.gl.canvas.width, this.gl.canvas.height);
 
         let buffer = this.gl.getImageData(0,0,this.gl.canvas.width, this.gl.canvas.height);
