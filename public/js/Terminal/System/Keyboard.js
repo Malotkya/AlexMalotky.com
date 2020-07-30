@@ -130,7 +130,7 @@ export const getKeyPressed = code => String.fromCharCode(code);
 export const reportKeyDown = code => keyPress[code] = true;
 export const reportKeyUp = code => keyPress[code] = false;
 
-const isKeyPressed = code => {
+export const isKeyPressed = code => {
     let key = keyPress[code];
 
     if(key === undefined) {
