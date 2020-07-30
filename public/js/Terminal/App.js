@@ -45,9 +45,6 @@ class App {
     // @param: system - used to access system functions (usually println)
     // @param: args - arguments passed as an array
     main = async (system, args) => system.println("Hello World!");
-
-    render = bios => false;
-
 }
 
 export default App;
