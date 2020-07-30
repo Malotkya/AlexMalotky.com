@@ -151,7 +151,7 @@ class System {
                     y++;
                 }
 
-                if(y > this.bios.height) {
+                if(y > this.bios.totalHeight()) {
                     this.bios.grow();
                 }
             }
