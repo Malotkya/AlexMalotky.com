@@ -2,7 +2,8 @@ import * as Keyboard from './System/Keyboard.js';
 import Terminal from './Terminal.js';
 import Bios from './System/Bios.js';
 import InputStream from './System/InputStream.js';
-import OutputStream from './System/OutputStream.js';
+import Stream from './System/Stream.js';
+import View from './System/View.js';
 
 class System {
     // Loads the bios and main App
@@ -16,9 +17,10 @@ class System {
         this.apps = [];
 
         this.input = new InputStream(this.bios);
-        this.output = new OutputStream(this.bios);
+        this.output = new Stream();
 
         this.password = false;
+        this.view = null;
     };
 
     // Adds the string to output to be printed and adds a new line char
@@ -72,7 +74,12 @@ class System {
     run = async(args) => {
         this.output.clear();
         this.input.clear();
-        return await this.current().main(this, args);
+        let p = await this.current().main(this, args);
+        if(this.view !== null)
+            this.view = null;
+        else
+            this.output.clear();
+        return p;
     }
 
     //Gets the top of the callstack
@@ -102,7 +109,7 @@ class System {
 
             case Keyboard.ENTER:
                 this.input.add( Keyboard.getKeyPressed(key) );
-                if(!this.password)
+                if(!this.password && this.view !== null)
                     this.output.add(this.input.buffer);
                 this.input.clear();
                 break;
@@ -130,8 +137,23 @@ class System {
         return output;
     }
 
+    getView = async() => {
+        this.output.clear();
+
+        // Wait to render the steam
+        while(this.output.stream.length > 0)
+            await this.bios.sleep();
+
+        return new View(this);
+    }
+
     render = () => {
-        if( !this.current().render(this.bios) ) {
+        if( this.view === null ) {
+
+            if(this.output.stream.length > 0) {
+                this.bios.print(this.output.stream);
+                this.output.stream = "";
+            }
 
             let x = this.bios.x;
             let y = this.bios.y;
@@ -146,7 +168,7 @@ class System {
                 }
 
 
-                if(x >= this.bios.width) {
+                if(x > this.bios.width) {
                     x = 1;
                     y++;
                 }
@@ -163,6 +185,8 @@ class System {
             }
 
             this.bios.put(x, y, this.input.cursor);
+        } else {
+            this.view.render(this);
         }
     }
 
