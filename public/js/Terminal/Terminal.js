@@ -10,6 +10,7 @@ class Terminal extends App {
         super(null, null);
 
         this.running = true;
+        this.system = system;
 
         system.addApp(new Help());
         system.addApp(new Reset());
@@ -38,6 +39,13 @@ class Terminal extends App {
                 system.callstack.pop();
             }
         }
+    }
+
+    run = () => {
+        this.system.run()
+        .catch(e => {
+            console.error(e);
+        })
     }
 }
 

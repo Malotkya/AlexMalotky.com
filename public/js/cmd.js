@@ -1,6 +1,7 @@
 import Terminal from './Terminal/Terminal.js';
 import System from "./Terminal/System.js";
 import App from "./Terminal/App.js";
+import * as Keyboard from "./Terminal/System/Keyboard.js";
 
 window.onload = () => {
 
@@ -8,21 +9,25 @@ window.onload = () => {
     let terminal = new Terminal(system);
 
     system.println("Welcome to AlexMalotky.com");
-    system.addApp(new Password());
+    system.addApp(new Test());
 
-    system.run().catch(e => {
-        console.error(e);
-    });
+    terminal.run();
 };
 
-class Password extends App {
+class Test extends App {
     constructor() {
-        super("password", "For testing getPassword()");
+        super("view", "For testing view port like funcitonality");
     }
 
-    main = async (terminal, args) => {
-        let password = await terminal.getPassword();
+    main = async (system, args) => {
+        let view = await system.getView();
 
-        terminal.println("!!!" + password + "!!!");
+        while(await view.open()) {
+            if(Keyboard.isKeyPressed(Keyboard.ESCAPE))
+                view.close();
+
+            view.test();
+        }
+
     }
 }
