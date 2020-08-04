@@ -76,7 +76,7 @@ class System {
         this.input.clear();
         let p = await this.current().main(this, args);
         if(this.view !== null)
-            this.view = null;
+            this.view.delete();
         else
             this.output.clear();
         return p;
@@ -109,7 +109,7 @@ class System {
 
             case Keyboard.ENTER:
                 this.input.add( Keyboard.getKeyPressed(key) );
-                if(!this.password && this.view !== null)
+                if(!this.password && this.view === null)
                     this.output.add(this.input.buffer);
                 this.input.clear();
                 break;
@@ -140,7 +140,7 @@ class System {
     getView = async() => {
         this.output.clear();
 
-        // Wait to render the steam
+        // Wait to render the stream
         while(this.output.stream.length > 0)
             await this.bios.sleep();
 
@@ -175,6 +175,7 @@ class System {
 
                 if(y > this.bios.totalHeight()) {
                     this.bios.grow();
+                    this.bios.scroll(y);
                 }
             }
 
@@ -186,7 +187,10 @@ class System {
 
             this.bios.put(x, y, this.input.cursor);
         } else {
-            this.view.render(this);
+            this.bios.gl.putImageData(this.view.render(), 0, this.view.top);
+
+            if(this.view.running === false)
+                this.view = null;
         }
     }
 
