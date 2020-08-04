@@ -109,12 +109,20 @@ class Bios {
     view = () => {;
         let top = (this.y-1) * this.ch;
 
+        this.y += this.height;
+        this.x = 1;
+
+        if(this.y >= this.totalHeight())
+            this.grow();
+
         //Have to wait for the growth to render.
-        window.setTimeout(()=>this.target.scrollTop = top+1, 10);
+        window.setTimeout(()=>this.target.scrollTop = top+2, 10);
 
         this.gl.fillStyle = this.background;
         this.gl.fillRect( 0, top+1, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.fillStyle = this.font;
+
+        return top;
     }
 
     //shutsdown the app
@@ -175,7 +183,7 @@ class Bios {
                 return;
             }
 
-            this.gl.canvas.height = this.target.height * 2;
+            this.gl.canvas.height = this.target.height;
             this.gl.canvas.width = this.target.width;
 
             this.gl.font = `${this.size}px monospace`;
@@ -183,8 +191,11 @@ class Bios {
         }
     }
 
-    scroll = (amount = 1) => {
-        this.target.scrollBy(0, (amount + 0.1) * this.ch)
+    scroll = target => {
+        if(target === undefined)
+            target = this.y;
+
+        window.setTimeout(()=>this.target.scrollTop = (target + 2) * this.ch, 10);
     }
 
     totalHeight = () => Math.floor(this.gl.canvas.height / this.ch);
@@ -193,7 +204,7 @@ class Bios {
 
     clear = () => {
         this.gl.fillStyle = this.background;
-        this.gl.fillRect( ((this.x-1)*this.cw), ((this.y-0.5)*this.ch), this.gl.canvas.width, this.ch*2);
+        this.gl.fillRect( ((this.x-1)*this.cw), ((this.y-1)*this.ch), this.gl.canvas.width, this.ch*2);
         this.gl.fillRect( 0, (this.y*this.ch), this.gl.canvas.width, this.gl.canvas.height);
 
         let buffer = this.gl.getImageData(0,0,this.gl.canvas.width, this.gl.canvas.height);
