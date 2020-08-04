@@ -3,7 +3,7 @@ import System from "./Terminal/System.js";
 import App from "./Terminal/App.js";
 import * as Keyboard from "./Terminal/System/Keyboard.js";
 
-const init = () => {
+window.onload = () => {
 
     let system = new System(document.querySelector("#terminal"));
     let terminal = new Terminal(system);

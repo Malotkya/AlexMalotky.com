@@ -209,7 +209,7 @@ class Bios {
                 this.target.innerText = "Unable to initialize WebGL. Your browser or machine may not support it.";
                 return;
             }
-
+            this.target.innerHTML = "";
             this.target.appendChild(canvas);
 
             this.gl.canvas.height = this.target.height;
