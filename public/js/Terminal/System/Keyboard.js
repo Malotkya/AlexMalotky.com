@@ -1,3 +1,10 @@
+// This file contains all the constants that represent keyboard keys.  It also
+// contains the functions to get the keycode from the even/browser and to check
+// if the key is currently being pressed.
+//
+// @author Alex Malotky
+
+
 // Key codes to be used in the Terminal
 export const KEY_ERROR = 0;
 
@@ -125,11 +132,25 @@ export const getKeyCode = e => {
     return KEY_ERROR;
 }
 
+// Gets the key as a char that was pressed from the keycode
+//
+// @param: keycode from event
+// @retrun: char that was pressed
 export const getKeyPressed = code => String.fromCharCode(code);
 
+// Sets the key as pressed
+//
+// @param keycode of key that was pressed
 export const reportKeyDown = code => keyPress[code] = true;
+
+// Sets the key as released
+//
+// @param keycode of key that was released
 export const reportKeyUp = code => keyPress[code] = false;
 
+// Checks to see if the key has been pressed.
+//
+// @param keycode to check
 export const isKeyPressed = code => {
     let key = keyPress[code];
 

@@ -1,3 +1,8 @@
+//These are the default constants that will be used by the app.  If there are
+//settings saved in a cookie those will be used instead.
+//
+// @author: Alex Malotky
+
 export const SCREEN_WIDTH = 100;
 export const SCREEN_HEIGHT = 30;
 
