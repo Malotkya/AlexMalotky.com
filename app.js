@@ -1,18 +1,14 @@
-#! /usr/bin/env node
-
 const express = require("express");
 const helmet = require("helmet");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 
-const app = express();
+let app = express();
 
 // Constants
-const port = Number(process.argv[2]);
-const defaultPort = 8080;
-const publicDirectory = "./public";
-const sourceDirectory = "./src"
+const publicDirectory = __dirname + "/public";
+const sourceDirectory = __dirname + "/src"
 
 //Setting security using helmet
 app.use(helmet());
@@ -57,17 +53,15 @@ app.use((req, res) => res.status(400).render('error', {
     title:"404 Error"
 }) );
 
-app.use((error, req, res, next) => {
+app.use((err, req, res, next) => {
     console.error(error);
-    res.status(500).render('error', {
-        message:JSON.stringify(error),
-        title:"500 Internal Error"
+
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        title:"500 Internal Error",
+        error: req.app.get('env') === 'development' ? err : {}
     });
 } );
 
-//Launch app
-if( isNaN(port) ) {
-    app.listen(defaultPort, () => console.log(`\nApplication is listening on port: ${defaultPort}!`) );
-} else {
-    app.listen(port, () => console.log(`\nApplication is listening on port: ${port}!`) );
-}
+module.exports = app;

@@ -4,3 +4,6 @@
 /src/util/password.js
 
 test.js
+
+bin/server.crt
+bin/server.key
