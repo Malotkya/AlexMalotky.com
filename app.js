@@ -64,4 +64,4 @@ app.use((err, req, res, next) => {
     });
 } );
 
-module.exports = app;
+app.listen(8080);
