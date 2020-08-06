@@ -13,11 +13,6 @@ const port = Number(process.argv[2]);
 const defaultPort = 8080;
 const publicDirectory = "./public";
 const sourceDirectory = "./src"
-const requests = [
-    "get",
-    "post",
-    "all"
-];
 
 //Setting security using helmet
 app.use(helmet());
@@ -45,19 +40,14 @@ app.use( session({
     saveUninitialized: false
 }) );
 
-//Load servlets into app
-let controllerDirectory = sourceDirectory + "/controller"
-let files = fs.readdirSync(controllerDirectory);
+//Load routers into app
+let routerDirectory = sourceDirectory + "/router"
+let files = fs.readdirSync(routerDirectory);
 files.forEach(file => {
-    if( file.indexOf(".js") >= 0 ) {
-        let controller = require(controllerDirectory + "/" + file);
-
-        requests.forEach(httpRequest => {
-            if( typeof controller[httpRequest] === "function" ) {
-                app[httpRequest](controller.path, controller[httpRequest]);
-                //console.log(controller.path);
-            }
-        });
+    let router = require(routerDirectory + "/" + file);
+    if(router) {
+        if(typeof router.path === "string")
+            app.use(router.path, router);
     }
 });
 
