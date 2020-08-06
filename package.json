@@ -17,7 +17,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node app.js 8080"
+    "start": "PORT=8080 node /bin/www",
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
