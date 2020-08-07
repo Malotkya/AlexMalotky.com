@@ -38,6 +38,8 @@ app.use( session({
     saveUninitialized: false
 }) );
 
+app.use( require(sourceDirectory + "/util/update.js") );
+
 //Load routers into app
 let routerDirectory = sourceDirectory + "/router"
 let files = fs.readdirSync(routerDirectory);
@@ -56,7 +58,7 @@ app.use((req, res) => res.status(400).render('error', {
 }) );
 
 app.use((err, req, res, next) => {
-    console.error(error);
+    console.error(err);
 
     res.status(err.status || 500);
     res.render('error', {
