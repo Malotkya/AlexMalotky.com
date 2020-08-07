@@ -24,12 +24,19 @@ signup.post("/", async(req,res)=>{
         let test = await dao.getByUserName(email);
 
         if(test == null) {
-            let id = await dao.insert(email, password_hash, firstName, lastName);
-            req.session.user = await dao.getById(id);
-            if(callback == "") {
-                res.redirect("/");
-            } else {
-                res.redirect(callback);
+            try {
+                let id = await dao.insert(email, password_hash, firstName, lastName);
+                req.session.user = await dao.getById(id);
+                if(callback == "") {
+                    res.redirect("/");
+                } else {
+                    res.redirect(callback);
+                }
+            } catch (e) {
+                res.render('error', {
+                    message: e.message,
+                    title: "Error"
+                });
             }
         } else {
             res.render("signup", {
@@ -50,6 +57,8 @@ signup.post("/", async(req,res)=>{
             errMessage:"The passwords must match!"
         });
     }
+
+    //TODO:redirect to login with success
 });
 
 module.exports = signup;
