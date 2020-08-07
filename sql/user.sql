@@ -6,7 +6,7 @@ DROP TABLE user;
 
 CREATE TABLE user (
 	id int auto_increment,
-    email varchar(20),
+    email varchar(100),
     password varchar(60),
     firstName varchar(20),
     lastName varchar(20),
