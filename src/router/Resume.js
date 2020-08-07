@@ -4,14 +4,15 @@ let resume = express.Router();
 resume.path = "/Resume";
 
 resume.get("/", async(req,res)=>{
-    let resumeDao = require("../dao/ResumeDao.js");
+    let schoolDao = require("../dao/SchoolDao.js");
+    let jobDao = require("../dao/jobDao.js");
     let errorMessage = "";
     let schoolHistory = Array();
     let jobHistory = Array();
 
     try {
-        schoolHistory = await resumeDao.getAllSchoolHistory();
-        jobHistory = await resumeDao.getAllJobHistory();
+        schoolHistory = await schoolDao.getAll();
+        jobHistory = await jobDao.getAll();
 
     } catch (error) {
         console.error(error);
