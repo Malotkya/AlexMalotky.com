@@ -3,14 +3,16 @@
 const express = require("express");
 const helmet = require("helmet");
 const session = require("express-session");
+const KnexSessionStore = require('connect-session-knex')(session);
 const bodyParser = require("body-parser");
 const fs = require("fs");
-
-let app = express();
 
 // Constants
 const publicDirectory = __dirname + "/public";
 const sourceDirectory = __dirname + "/src"
+
+let app = express();
+let store = new KnexSessionStore({knex:require(sourceDirectory + "/util/conn.js")});
 
 //Setting security using helmet
 app.use(helmet());
@@ -35,8 +37,9 @@ app.use(bodyParser.json());
 app.use( session({
     secret:'supercalifragilisticexpialidocious',
     resave: false,
-    saveUninitialized: false
-}) );
+    saveUninitialized: false,
+    store,
+  }) );
 
 app.use( require(sourceDirectory + "/util/update.js") );
 
@@ -68,4 +71,4 @@ app.use((err, req, res, next) => {
     });
 } );
 
-app.listen(8080);
+app.listen(8080, ()=>console.log("App is running on 8080!"));
