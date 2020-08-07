@@ -1,22 +1,15 @@
 const init = () => {
-    document.querySelectorAll(".deleteSchool").forEach(button => {
-        button.addEventListener("click", deleteSchool);
-    });
+    document.querySelectorAll(".deleteSchool")
+            .forEach(button => button.addEventListener("click", deleteSchool));
 
-    document.querySelectorAll(".deleteJob").forEach(button => {
-        button.addEventListener("click", deleteJob);
-    });
+    document.querySelectorAll(".deleteJob")
+            .forEach(button => button.addEventListener("click", deleteJob));
 
-    document.querySelectorAll(".editSchool").forEach(button => {
-        button.addEventListener("click", editSchool);
-    });
+    document.querySelectorAll(".editSchool")
+            .forEach(button => button.addEventListener("click", editSchool));
 
-    document.querySelectorAll(".editJob").forEach(button => {
-        button.addEventListener("click", editJob);
-    });
-
-    document.querySelector("#schoolForm").addEventListener("submit", sendSchool);
-    document.querySelector("#jobForm").addEventListener("submit", sendJob);
+    document.querySelectorAll(".editJob")
+            .forEach(button => button.addEventListener("click", editJob));
 
 }; window.onload = init;
 
@@ -25,15 +18,15 @@ const deleteSchool = event => {
     let target = document.querySelector(`#school${id}`);
 
     if( confirm(`Are you sure you want to delete: ${target.querySelector(".name").innerText}`) ) {
-        fetch("/Admin/School/Delete", {
-            method: 'POST',
+        fetch("/Admin/School/", {
+            method: 'DELETE',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             body: JSON.stringify({id:id})
         }).then(responce => {
             if( !responce.ok )
                 throw new Error(responce.body);
-
-            window.location.replace("/Admin/School");
+            else
+                window.location.href = "/Admin/School";
         }).catch(error => {
             console.error(error);
         });
@@ -45,19 +38,20 @@ const deleteJob = event => {
     let target = document.querySelector(`#job${id}`);
 
     if( confirm(`Are you sure you want to delete: ${target.querySelector(".location").innerText}`) ) {
-        fetch("/Admin/Job/Delete", {
-            method: 'POST',
+        fetch("/Admin/Job/", {
+            method: 'DELETE',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             body: JSON.stringify({id:id})
         }).then(responce => {
             if( !responce.ok )
                 throw new Error(responce.body);
-
-            window.location.replace("/Admin/Job");
+            else
+                window.location.href = "/Admin/Job";
         }).catch(error => {
             console.error(error);
         });
     }
+
 }
 
 const editSchool = event => {
@@ -105,66 +99,4 @@ const editJob = event => {
     form.querySelector("#description").value = target.querySelector(".description").innerText;
     form.querySelector("#jobId").value = id;
     form.querySelector("#submitJob").value = "Edit Job";
-}
-
-const sendSchool = event => {
-    let form = event.target;
-    event.preventDefault();
-
-    let body = {
-        id: form.querySelector("#schoolId").value,
-        name: form.querySelector("#name").value,
-        degree: form.querySelector("#degree").value,
-        gpa: form.querySelector("#gpa").value,
-        graduated: form.querySelector("#graduated").value,
-        comments: form.querySelector("#comments").value
-    };
-
-    let action = "Update";
-    if(body.id == "")
-        action = "New";
-
-    fetch(`/Admin/School/${action}`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json; charset=UTF-8'},
-        body: JSON.stringify(body)
-    }).then(responce => {
-        if( !responce.ok )
-            throw new Error(responce.body);
-
-        window.location.replace("/Admin/School");
-    }).catch(error => {
-        console.error(error);
-    });
-}
-
-const sendJob = event => {
-    let form = event.target;
-    event.preventDefault();
-
-    let body = {
-        id: form.querySelector("#jobId").value,
-        location: form.querySelector("#location").value,
-        startDate: form.querySelector("#startDate").value,
-        endDate: form.querySelector("#endDate").value,
-        title: form.querySelector("#title").value,
-        description: form.querySelector("#description").value
-    };
-
-    let action = "Update";
-    if(body.id == "")
-        action = "New";
-
-    fetch(`/Admin/Job/${action}`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json; charset=UTF-8'},
-        body: JSON.stringify(body)
-    }).then(responce => {
-        if( !responce.ok )
-            throw new Error(responce.body);
-
-        window.location.replace("/Admin/Job");
-    }).catch(error => {
-        console.error(error);
-    });
 }

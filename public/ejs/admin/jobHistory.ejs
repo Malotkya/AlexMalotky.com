@@ -25,7 +25,7 @@
     </section>
 <% }); %>
 </div>
-<form class="col-sm-6" id="jobForm">
+<form class="col-sm-6" id="jobForm" method="POST" action="/Admin/Job">
     <label for="location">Job Location:</label>
     <input type="text" class="form-control" id="location" name="location">
     <label for="title">Job Title:</label>
@@ -37,6 +37,6 @@
     <textarea class="form-control" name="description" id="description"></textarea>
     <input class="btn btn-primary" type="submit" id="submitJob" value="Add New Job" />
     <input class="btn btn-secondary" type="reset" value="Reset" />
-    <input type="hidden" name="jobId" id="jobId" />
+    <input type="hidden" name="id" id="jobId" />
 </form>
 </div>
