@@ -5,7 +5,7 @@ resume.path = "/Resume";
 
 resume.get("/", async(req,res)=>{
     let schoolDao = require("../dao/SchoolDao.js");
-    let jobDao = require("../dao/jobDao.js");
+    let jobDao = require("../dao/JobDao.js");
     let errorMessage = "";
     let schoolHistory = Array();
     let jobHistory = Array();
