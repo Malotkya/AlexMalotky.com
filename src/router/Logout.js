@@ -1,7 +1,7 @@
 let express = require('express');
 let logout = express.Router();
 
-logout.path = "/";
+logout.path = "/Logout";
 
 logout.all("/", (req, res) => {
     delete req.session.user;
