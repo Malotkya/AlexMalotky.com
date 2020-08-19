@@ -1,63 +1,62 @@
 const  FamilyMember = require("../entity/FamilyMember.js");
+const imageDao = new (require("./ImageDao.js"))("Family");
+let dao = {};
 
-class FamilyDao {
-    async getById(id) {
-        try {
-            let responce = await new FamilyMember({id:id}).fetch();
+const validate = object => {
 
-            return responce.attributes;
-        } catch (error) {
-            console.log(error);
-            return null;
-        }
-    }
+    object.parent_id = Number(object.parent_id);
+    if(isNaN(object.parent_id))
+        object.parent_id = null;
 
-    async getAll() {
-        try {
-            let output = Array();
-            let responce = await new FamilyMember().fetchAll();
-            responce.models.forEach(obj => output.push(obj.attributes));
+    return object;
+}
 
-            return output;
-        } catch (error) {
-            return Array();
-        }
-    }
-
-    async update(id, name, picture, parent_id) {
-        let pid = Number(parent_id);
-        if(isNaN(pid))
-            pid = null;
-
-        let person = new FamilyMember({
-            id:id,
-            name:name,
-            picture:picture,
-            parent_id:pid
-        });
-        person.save();
-
-        return person.attributes.id
-    }
-
-    async insert(name, picture, parent_id) {
-        let pid = Number(parent_id);
-        if(isNaN(pid))
-            pid = null;
-
-        let person = new FamilyMember({
-            name:name,
-            picture:picture,
-            parent_id:pid
-        });
-        person = await person.save(null, {method:"insert"});
-
-        return person.attributes.id;
-    }
-
-    async delete(id) {
-        new FamilyMember({id:id}).destroy();
+dao.getById = async(id) => {
+    try {
+        return (await new FamilyMember({id:id}).fetch()).attributes;
+    } catch (e) {
+        return null;
     }
 }
 
-module.exports = new FamilyDao();
+dao.getAll = async() => {
+    try {
+        let output = Array();
+        let responce = await new FamilyMember().fetchAll();
+        responce.models.forEach(obj => output.push(obj.attributes));
+
+        return output;
+    } catch (error) {
+        return Array();
+    }
+}
+
+dao.update = async(object, files) => {
+    if(files !== null) {
+        object.picture = imageDao.upload(object.name,
+                    files.picture.data, files.picture.mimetype);
+    }
+
+    let person = new FamilyMember(validate(object));
+    return (await person.save()).attributes
+}
+
+dao.insert = async(object, files) => {
+    if(files !== null) {
+        object.picture = imageDao.upload(object.name,
+                    files.picture.data, files.picture.mimetype);
+    }
+
+    let person = new FamilyMember(validate(object));
+    return (await person.save(null, {method:"insert"})).attributes;
+}
+
+dao.delete = async(id) => {
+    let picture = (await dao.getById(id)).picture;
+    if(picture !== "")
+        imageDao.delete(picture);
+
+    new FamilyMember({id:id}).destroy();
+}
+
+module.exports = dao;
