@@ -26,10 +26,10 @@ dao.getAll = async() => {
     }
 }
 
-dao.update = async() => {
+dao.update = async(object) => {
     try {
-        let school = new JobHistory( validate(object) );
-        await school.save();
+        let job = new JobHistory( validate(object) );
+        await job.save();
     } catch (e) {
         if(e.message != 'No Rows Updated')
             throw e;
@@ -38,8 +38,8 @@ dao.update = async() => {
 
 dao.insert = async(object) => {
     try {
-        let school = new JobHistory( validate(object) );
-        await school.save(null, {method:"insert"});
+        let job = new JobHistory( validate(object) );
+        await job.save(null, {method:"insert"});
     } catch (e) {
         throw e;
     }
