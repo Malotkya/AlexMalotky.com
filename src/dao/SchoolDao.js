@@ -19,7 +19,13 @@ dao.getAll = async() => {
     try {
         let output = Array();
         let responce = await new SchoolHistory().orderBy('graduated', 'DESC').fetchAll();
-        responce.models.forEach( obj => output.push(obj.attributes) );
+        responce.models.forEach( obj => {
+            if(obj.attributes.graduated === null) {
+                output.unshift(obj.attributes);
+            } else {
+                output.push(obj.attributes);
+            }
+        });
         return output;
     } catch (e) {
         throw e;
@@ -42,7 +48,7 @@ dao.insert = async(object) => {
         await school.save(null, {method:"insert"});
     } catch (e) {
 
-    }    
+    }
 };
 
 dao.delete = async(id) => {
