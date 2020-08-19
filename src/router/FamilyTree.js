@@ -4,67 +4,71 @@ let familyTree = express.Router();
 familyTree.path = "/FamilyTree";
 
 familyTree.get("/", async(req,res)=>{
-    if(req.session.user) {
-        if(req.session.user.roles.includes("Family")) {
-            let dao = require("../dao/FamilyDao.js");
-            let family = await dao.getAll();
-            let id = req.query.id;
+    if(req.session.user.roles.includes("Family")) {
+        let dao = require("../dao/FamilyDao.js");
+        let family = await dao.getAll();
+        let id = req.query.id;
 
-            res.render('familyTree', {
-                tree:family,
-                user:req.session.user,
-                id:id
-            });
+        res.render('familyTree', {
+            tree:family,
+            id:id,
+            user:req.session.user
+        });
 
+    } else {
+
+        if(req.session.user.id < 0) {
+            res.render("login", {callback:"/FamilyTree"});
         } else {
             res.render("error", {
                 title:"Access Denied!",
-                message:"You must be logged in as a family member to access this page.",
-                user:req.session.user
+                message:"You must be logged in as a family member to access this page."
             });
         }
 
-    } else {
-        res.render("login", {callback:"/FamilyTree"});
     }
 });
 
 familyTree.post("/:Action", async(req,res)=>{
-    if(req.session.user.roles.includes("Family-Admin")) {
-        let dao = require("../dao/FamilyDao.js");
-        let action = req.params.Action;
-        let id = -1;
+    try {
+        if(!req.session.user.roles.includes("Family-Admin"))
+            throw new Error("User Error");
 
-        switch(action) {
-        case "Create":
-            id = await dao.insert(req.body.name,
-                                  null, //picture location
-                                  req.body.parent_id
-                              );
-            break;
-        case "Update":
-            id = await dao.update(req.body.id,
-                                  req.body.name,
-                                  null, //picture location
-                                  req.body.parent_id
-                              );
-            break;
-        case "Delete":
-            dao.delete(req.body.id);
-            break;
-        default:
-            //Do Nothing
+            let dao = require("../dao/FamilyDao.js");
+            let action = req.params.Action;
+            let id = -1;
+
+            switch(action) {
+            case "Create":
+                id = (await dao.insert(req.body, req.files)).id;
+                break;
+            case "Update":
+                id = (await dao.update(req.body.id, req.files)).id;
+                break;
+            case "Delete":
+                dao.delete(req.body.id);
+                break;
+            default:
+                //Do Nothing
+            }
+            let redirect = "";
+            if(id >= 0) {
+                redirect = `?id=${id}`
+            }
+            res.redirect(`/FamilyTree${redirect}`);
+    } catch (e) {
+        if(e.message == "User Error") {
+            res.render("error", {
+                title: "Access Denied!",
+                message: "You need to be an admin to access this page!"
+            });
+        } else {
+            console.error(e);
+            res.render("error", {
+                message: e.message,
+                err: e
+            });
         }
-        let redirect = "";
-        if(id >= 0) {
-            redirect = `?id=${id}`
-        }
-        res.redirect(`/FamilyTree${redirect}`);
-    } else {
-        res.render("error", {
-            title: "Access Denied!",
-            message: "You need to be an admin to access this page!"
-        });
     }
 });
 
