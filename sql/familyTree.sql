@@ -5,7 +5,7 @@ DROP TABLE familyMember;
 CREATE TABLE familyMember (
 	id INT AUTO_INCREMENT,
     name varchar(50),
-    picture varchar(20),
+    picture varchar(50),
     parent_id INT,
     constraint primary key(id)
     /*constraint foreign key(parent_id) references familyMember(id)*/
