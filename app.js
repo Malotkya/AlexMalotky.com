@@ -5,11 +5,13 @@ const helmet = require("helmet");
 const session = require("express-session");
 const KnexSessionStore = require('connect-session-knex')(session);
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload")
 const fs = require("fs");
 
+
 // Constants
-const publicDirectory = __dirname + "/public";
-const sourceDirectory = __dirname + "/src"
+const publicDirectory = process.cwd() + "/public";
+const sourceDirectory = process.cwd() + "/src"
 
 let app = express();
 let store = new KnexSessionStore({knex:require(sourceDirectory + "/util/conn.js")});
@@ -31,8 +33,13 @@ app.use(helmet.contentSecurityPolicy({
 app.use( "/", express.static(publicDirectory) );
 app.set("views", publicDirectory + "/ejs");
 app.set('view engine', 'ejs');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(fileUpload({
+    safeFileNames: true
+}));
 
 app.use( session({
     secret:'supercalifragilisticexpialidocious',
