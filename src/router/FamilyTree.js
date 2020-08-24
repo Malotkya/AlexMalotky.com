@@ -43,7 +43,7 @@ familyTree.post("/:Action", async(req,res)=>{
                 id = (await dao.insert(req.body, req.files)).id;
                 break;
             case "Update":
-                id = (await dao.update(req.body.id, req.files)).id;
+                id = (await dao.update(req.body, req.files)).id;
                 break;
             case "Delete":
                 dao.delete(req.body.id);

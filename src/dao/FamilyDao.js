@@ -33,6 +33,7 @@ dao.getAll = async() => {
 
 dao.update = async(object, files) => {
     if(files !== null) {
+        console.log(object);
         object.picture = imageDao.upload(object.name,
                     files.picture.data, files.picture.mimetype);
     }

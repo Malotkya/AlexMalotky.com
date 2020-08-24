@@ -48,7 +48,6 @@ admin.post("/:Page", async(req,res) => {
         } else if( page === "School" ) {
             schoolDao.update(body);
         } else if(page === "Home"){
-            console.log(body.text);
             fs.writeFileSync(process.cwd() + "/public/ejs/home.ejs", body.text);
         } else {
             //Error
