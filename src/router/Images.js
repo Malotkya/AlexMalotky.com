@@ -21,14 +21,12 @@ images.post("/:Dir", async(req,res) => {
     if(req.session.user.roles.includes("Admin")) {
         try {
             let dao = new ImageDao(req.params.Dir);
-            dao.upload(req.file.image.name, req.files.image.data,
+            dao.upload(req.files.image.name, req.files.image.data,
                         req.files.image.mimetype);
+            res.status(200).end();
         } catch (e) {
             res.status(500).json(e);
         }
-        let dao = new ImageDao(req.params.Dir, true);
-        dao.upload(req.file.image.name, req.files.image.data,
-                    req.files.image.mimetype);
     } else {
         res.status(500).json({message:"You need to be an admin to do that!"});
     }
@@ -39,6 +37,7 @@ images.delete("/:Dir", async(req,res) => {
         try {
             let dao = new ImageDao(req.params.Dir);
             dao.delete(req.file.image.name);
+            res.status(200).end();
         } catch (e) {
             res.status(500).json(e);
         }
