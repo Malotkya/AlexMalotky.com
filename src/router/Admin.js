@@ -3,8 +3,8 @@ let admin = express.Router();
 
 let jobDao = require('../dao/JobDao.js');
 let schoolDao = require('../dao/SchoolDao.js');
+let fs = require('fs');
 
-//TODO: fix this whole page!!!!!!!!!!!!
 admin.path = "/Admin";
 
 admin.get("/:Page?", async(req,res) => {
@@ -47,6 +47,9 @@ admin.post("/:Page", async(req,res) => {
             schoolDao.insert(body);
         } else if( page === "School" ) {
             schoolDao.update(body);
+        } else if(page === "Home"){
+            console.log(body.text);
+            fs.writeFileSync(process.cwd() + "/public/ejs/home.ejs", body.text);
         } else {
             //Error
         }

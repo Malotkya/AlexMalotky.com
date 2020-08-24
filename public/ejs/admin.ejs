@@ -1,25 +1,67 @@
 <%- include("template/header.ejs", {title: 'Alex Malotky'}); %>
+<%
+    let jN = "";
+    let sN = "";
+    let hN = "";
+    let bN = "";
+    let jT = "fade";
+    let sT = "fade";
+    let hT = "fade";
+    let bT = "fade";
+
+    switch(page) {
+        case "Job":
+        jN = "active";
+        jT = "active";
+        break;
+
+        case "School":
+        sN = "active";
+        sT = "active";
+        break;
+
+        case "Home":
+        hN = "active";
+        hT = "active";
+        break;
+
+        case "Blog":
+        bN = "active";
+        bT = "active";
+        break;
+
+        default:
+        hN = "active";
+        hT = "active";
+    }
+%>
 <main id="main" class="col-12">
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="pill" href="#jobHistory">Job History</a>
+            <a class="nav-link <%=jN%>" data-toggle="pill" href="#jobHistory">Job History</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#schoolHistory">School History</a>
+            <a class="nav-link <%=sN%>" data-toggle="pill" href="#schoolHistory">School History</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#blog">Blog</a>
+            <a class="nav-link <%=hN%>" data-toggle="pill" href="#home">Home Page</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%=bN%>" data-toggle="pill" href="#blog">Blog</a>
         </li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane container active" id="jobHistory">
+        <div class="tab-pane container <%=jT%>" id="jobHistory">
             <%- include("admin/jobHistory.ejs", {history:jobHistory}) %>
         </div>
-        <div class="tab-pane container fade" id="schoolHistory">
+        <div class="tab-pane container <%=sT%>" id="schoolHistory">
             <%- include("admin/schoolHistory.ejs", {history:schoolHistory}) %>
         </div>
-        <div class="tab-pane container fade" id="blog">
+        <div class="tab-pane container <%=hT%>" id="home">
+            <%- include("admin/home.ejs") %>
+        </div>
+        <div class="tab-pane container <%=bT%>" id="blog">
             <h1>Comming Soon</h1>
         </div>
     </div>

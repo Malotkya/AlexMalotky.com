@@ -1,4 +1,4 @@
-const init = () => {
+window.onload = () => {
     document.querySelectorAll(".deleteSchool")
             .forEach(button => button.addEventListener("click", deleteSchool));
 
@@ -11,7 +11,8 @@ const init = () => {
     document.querySelectorAll(".editJob")
             .forEach(button => button.addEventListener("click", editJob));
 
-}; window.onload = init;
+    init();
+}
 
 const deleteSchool = event => {
     let id = event.target.attributes.schoolid.nodeValue;
