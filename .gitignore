@@ -5,5 +5,7 @@
 
 test.js
 
-bin/server.crt
-bin/server.key
+/public/img
+!/public/img/*.*
+
+/public/ejs/home.ejs
