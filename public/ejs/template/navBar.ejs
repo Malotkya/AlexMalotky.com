@@ -1,5 +1,5 @@
 <nav aria-label="Main Navigation" class="navbar navbar-expand-md bg-dark navbar-dark">
-    <h1 class="navbar-brand text-white">
+    <h1 class="navbar-brand">
         <a href="/">
             AlexMalotky.com
         </a>
@@ -18,28 +18,26 @@
             <a class="nav-link" href="/Resume">Resume</a>
         </li>
 
-        <!-- Site Progression -->
-        <li class="nav-item">
-            <a class="nav-link" href="/About">About</a>
-        </li>
+        <!-- Portfolio -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="/Portfolio">Portfolio</a>
 
-        <!-- Javascript Apps -->
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Javascript Apps</a>
             <ul class="dropdown-menu bg-dark" aria-haspopup="true">
-                <li class=""><a href="/cmd" class="nav-link">Terminal</a></li>
-                <li class=""><a href="/Dice" class="nav-link">Dice</a></li>
-            </ul>
-        </li>
-        <!-- Node.js Apps -->
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Node.js Apps</a>
-            <ul class="dropdown-menu bg-dark" aria-haspopup="true">
-                <li class=""><a href="/Blog" class="nav-link">Blog</a></li>
-                <li class=""><a href="/FamilyTree" class="nav-link">Family Tree</a></li>
+
+                <!-- Javascript Apps -->
+                <li class="nav-item"><h3>Javascript Apps</h3></li>
+                <li class="nav-item"><a href="/cmd" class="nav-link">Terminal</a></li>
+                <li class="nav-item"><a href="/Dice" class="nav-link">Dice</a></li>
+                <li class="dropdown-divider"></li>
+
+                <!-- Node.js Apps -->
+                <li class="nav-item"><h3>Node.js Apps</h3></li>
+                <li class="nav-item"><a href="/Blog" class="nav-link">Blog</a></li>
+                <li class="nav-item"><a href="/FamilyTree" class="nav-link">Family Tree</a></li>
             </ul>
         </li>
 
+        <!-- Login/Logout -->
         <% if(typeof user === "undefined") { %>
             <li class="nav-item">
                 <a class="nav-link" href="/Login">Login</a>
