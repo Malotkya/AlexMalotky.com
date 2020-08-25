@@ -1,106 +1,111 @@
-.d1 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") 0 0;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.d2 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -100px 0;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.d3 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -200px 0;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.d4 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -300px 0;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.d5 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -400px 0;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.d6 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -500px 0;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.l1 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") 0 100px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.l2 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -100px 100px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.l3 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -200px 100px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.l4 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -300px 100px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.l5 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -400px 100px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.l6 {
-    width: 100px;
-    height: 100px;
-    background: url("/img/dice.png") -500px 100px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
 .die {
     text-align: center;
+    padding: auto;
 }
 
 .die figure {
+    box-sizing:border-box;
     margin: 0.5em auto;
+    width: 100px;
+    height: 100px;
+    background-image: url("/img/dice.png");
+    border-radius: 10px;
+}
 
+.d1 {
+    background-position: 0 0;
+}
+
+.d2 {
+    background-position: -100px 0;
+}
+
+.d3 {
+    background-position: -200px 0;
+}
+
+.d4 {
+    background-position: -300px 0;
+}
+
+.d5 {
+    background-position: -400px 0;
+}
+
+.d6 {
+    background-position: -500px 0;
+}
+
+.l1 {
+    background-position: 0 -100px;
+}
+
+.l2 {
+    background-position: -100px -100px;
+}
+
+.l3 {
+    background-position: -200px -100px;
+}
+
+.l4 {
+    background-position: -300px -100px;
+}
+
+.l5 {
+    background-position: -400px -100px;
+}
+
+.l6 {
+    background-position: -500px -100px;
+}
+
+.d1:hover {
+    background-position: 0 -200px;
+}
+
+.d2:hover {
+    background-position: -100px -200px;
+}
+
+.d3:hover {
+    background-position: -200px -200px;
+}
+
+.d4:hover {
+    background-position: -300px -200px;
+}
+
+.d5:hover {
+    background-position: -400px -200px;
+}
+
+.d6:hover {
+    background-position: -500px -200px;
+}
+
+.l1:hover {
+    background-position: 0 100px;
+}
+
+.l2:hover {
+    background-position: -100px 100px;
+}
+
+.l3:hover {
+    background-position: -200px 100px;
+}
+
+.l4:hover {
+    background-position: -300px 100px;
+}
+
+.l5:hover {
+    background-position: -400px 100px;
+}
+
+.l6:hover {
+    background-position: -500px 100px;
 }
 
 .scoreboard {
