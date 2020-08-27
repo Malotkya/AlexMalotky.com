@@ -1,13 +1,19 @@
 <%- include("template/header.ejs", {title: 'Login'}); %>
-<main id="main" class="row justify-content-center">
+<main id="main" class="justify-content-center">
+    <% if(typeof message !== "undefined") { %>
+        <div class="alert alert-danger">
+            <strong><%= message %></strong>
+        </div>
+    <% } %>
     <form class="col-10 form" action="/Login" method="post">
         <h2>Login</h2>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" class="form-control"/>
+        <input type="text" id="username" name="username" class="form-control"
+                value="<% if(typeof username !== "undefined") { %><%= username %><% } %>"/>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" class="form-control"/>
         <a href="/Signup<% if(typeof callback != "undefined") { %><%=`?return=${callback}`%><% } %>">Sign Up Here</a> <br />
-        <input type="hidden" value="<% if(typeof callback != "undefined") { %><%=callback%><% } %>" name="callback" />
+        <input type="hidden" value="<% if(typeof callback !== "undefined") { %><%=callback%><% } %>" name="callback" />
         <input type="submit" value="Login" class="btn btn-primary"/>
     </form>
 </main>

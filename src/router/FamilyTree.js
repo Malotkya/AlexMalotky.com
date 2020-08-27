@@ -18,7 +18,10 @@ familyTree.get("/", async(req,res)=>{
     } else {
 
         if(req.session.user.id < 0) {
-            res.render("login", {callback:"/FamilyTree"});
+            res.render("login", {
+                callback: "/FamilyTree",
+                message: "You need to be logged in to view this page."
+            });
         } else {
             res.render("error", {
                 title:"Access Denied!",

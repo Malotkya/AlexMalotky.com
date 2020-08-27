@@ -12,6 +12,7 @@ login.post("/", async(req,res)=>{
     let username = req.body.username.trim();
     let password = req.body.password.trim();
     let forward = req.body.callback.trim();
+    let error = "";
 
     try {
         let responce = await userDao.getByUserName(username);
@@ -19,16 +20,29 @@ login.post("/", async(req,res)=>{
             if( compare(password, responce.password) ) {
                  delete responce.password;
                  req.session.user = responce;
+            } else {
+                error = "Username or Password is incorect!";
             }
         }
-    } catch (error) {
-        console.error(error);
+        else {
+            error = "Username or Password is incorect!";
+        }
+    } catch (e) {
+        console.error(e);
+        error = e.message;
     }
 
-    if(forward) {
-        res.redirect(forward);
+    if (error !== "") {
+        res.render("login", {
+            username: username,
+            message: "Username or Password is incorect"
+        });
     } else {
-        res.redirect("/");
+        if(forward) {
+            res.redirect(forward);
+        } else {
+            res.redirect("/");
+        }
     }
 });
 
