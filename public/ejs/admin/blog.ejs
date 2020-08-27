@@ -1,0 +1,18 @@
+<div class="row">
+    <form class="col-sm-6 form">
+        <h3>New Entry</h3>
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" class="form-control"/>
+
+        <label for="tags">Tags:</label>
+        <input type="text" name="tags" id="tags" class="form-control"/>
+
+        <hr />
+        <textarea name="message" class="form-control"></textarea>
+        <input type="hidden" name="user_id" value="<%= user.id %>" />
+        <input type="hidden" name="id" />
+    </form>
+    <section class="col-sm-6">
+        List all here
+    </section>
+</div>

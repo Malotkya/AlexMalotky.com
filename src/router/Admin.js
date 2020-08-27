@@ -18,7 +18,8 @@ admin.get("/:Page?", async(req,res) => {
         res.render("admin", {
             schoolHistory:schoolHistory,
             jobHistory:jobHistory,
-            page:page
+            page:page,
+            user:req.session.user
         });
 
     } else {

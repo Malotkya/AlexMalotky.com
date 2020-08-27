@@ -1,5 +1,21 @@
 <%- include("template/header.ejs", {title: 'Alex Malotky'}); %>
-<main id="main" class="row">
-    <h2>Comming Soon!</h2>
+<main id="main">
+    <h2 class="col-12">Blog</h2>
+    <form class="col-12" action="/Blog" method="GET">
+        <input type="text" name="q" class="w-75"/>
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </form>
+    <ul class="row col-12">
+        <% if(entries.length < 1) { %>
+            <li class="card col-12">
+                <div class="card-body">
+                    No entries found!
+                </div>
+            </li>
+        <% } else {
+            entries.forEach(entry => { %>
+                <%- include("blog/entry.ejs", {entry:entry}) %>
+        <% })} %>
+    </ul>
 </main>
 <%- include("template/footer.ejs") %>
