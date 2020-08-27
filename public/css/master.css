@@ -13,6 +13,13 @@
   src: url(../fonts/RobotoMono-Regular.ttf);
 }
 
+:root {
+    --blueTopaz: #67AECA;
+    --amthyst: #675682;
+    --jewel: #5F0F4E;
+    --rose: #E52A6F;
+}
+
 .hidden {
     position: absolute;
     overflow: hidden;
@@ -23,6 +30,12 @@
     padding: 0;
     border: 0;
 }
+
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    display: block;
+    margin: -5px;
+ }
 
 .nav-icon div {
   width: 35px;
@@ -36,8 +49,24 @@
     height: auto;
 }
 
+nav h3 {
+    font-size: 1rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+}
+
+h1:hover a {
+    text-decoration: none;
+}
+
+h1 a:link, h1 a:visited {
+    color: white;
+    font-size: 1.5rem;
+}
+
 #wrapper {
-  background-color: slateblue;
+  background-color: #E3E3E3;
+  color: var(--jewel);
   font-family: 'Roboto Mono', monospace;
   margin: 0;
   display: grid;
@@ -45,6 +74,19 @@
   height: 100vh;
   overflow-y: visible;
   overflow-x: hidden;
+}
+
+main.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--rose);
+}
+
+a:link, a:visited {
+    color: var(--amthyst);
 }
 
 figure img{
@@ -58,11 +100,40 @@ figure img{
 
 .form {
     background-color: gray;
+    padding: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alert {
+    text-align: center;
 }
 
 header, footer {
     padding: 0.25em;
     background-color: #343a40;
+}
+
+.card {
+    color: white;
+}
+
+.card-header, .card-footer {
+    background-color: var(--jewel);
+}
+
+.card-body {
+    background-color: var(--amthyst);
+    margin: 0;
+
+}
+
+pre.card-body {
+    padding: 0;
+}
+
+li.card {
+    background-color: inherit;
 }
 
 #terminal {
@@ -71,4 +142,30 @@ header, footer {
     overflow-x: hidden;
     scrollbar-width: thin;
     margin: auto;
+}
+
+.preview:nth-child(odd) > * {
+    display: float;
+    float: left;
+    text-align: right;
+}
+
+.preview:nth-child(odd) > figure {
+    float: right;
+}
+
+.preview:nth-child(even) > *{
+    display: float;
+    float: right;
+    text-align: left;
+}
+
+.preview:nth-child(even) > figure {
+    float: left;
+}
+
+.preview::after {
+    content: "";
+    display: table;
+    clear: both;
 }
