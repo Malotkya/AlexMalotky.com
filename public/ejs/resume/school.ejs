@@ -1,6 +1,6 @@
 <section class="card">
     <div class="card-header">
-        <h3><%=school.name%></h3><span>
+        <h3 class="header"><%=school.name%></h3><span>
             <%- include("formatDate", {date:school.graduated}) %>
         </span>
     </div>
@@ -10,7 +10,11 @@
                 <strong class="d-block w-100"><%=school.degree%></strong>
             <% }
         %>
-        <span>GPA: <%=school.gpa%></span>
+        <span>
+            <% if(school.gpa > 0 ) { %>
+                GPA: <%=school.gpa%>
+            <% } %>
+        </span>
         <%
             if(school.comments) { %>
                 <hr />
