@@ -4,12 +4,12 @@ JSON.parse(entry.tags).forEach(tag => string += tag + " ");
 %>
 <li class="card col" id="<%= entry.id %>">
     <div class="card-header">
-        <h3><%= entry.title %></h3>
+        <h3 class="header"><%= entry.title %></h3>
         <span><%= string %></span>
     </div>
-    <pre class="card-body">
-        <%= entry.message %>
-    </pre>
+    <div class="card-body">
+        <pre><%= entry.message %></pre>
+    </div>
     <div class="card-footer">
         <span><%= entry.stamp %></span>
         <span><%= entry.user %></span>
