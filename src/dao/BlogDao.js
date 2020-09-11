@@ -1,6 +1,18 @@
 const Entry = require("../entity/Entry.js");
 let dao = {};
 
+const validate = object => {
+    if(object.id === "")
+        delete object.id;
+
+    object.tags = object.tags.split(/s+/);
+    console.log(object.tags);
+
+    object.stamp = new Date();
+
+    return object;
+}
+
 dao.getAll = async() => {
     try {
         let output = [];
@@ -19,11 +31,11 @@ dao.getAll = async() => {
 }
 
 dao.insert = async(object) => {
-    return (await new Entry(object).save(null,{method:"insert"})).attributes
+    return (await new Entry(validate(object)).save(null,{method:"insert"})).attributes
 }
 
-dao.edit = async(object) => {
-    return (await new Entry(object).save()).attributes
+dao.update = async(object) => {
+    return (await new Entry(validate(object)).save()).attributes
 }
 
 dao.delete = async(id) => {
