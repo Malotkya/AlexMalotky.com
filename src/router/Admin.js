@@ -3,6 +3,7 @@ let admin = express.Router();
 
 let jobDao = require('../dao/JobDao.js');
 let schoolDao = require('../dao/SchoolDao.js');
+let blogDao = require('../dao/BlogDao.js');
 let fs = require('fs');
 
 admin.path = "/Admin";
@@ -12,12 +13,13 @@ admin.get("/:Page?", async(req,res) => {
 
         let schoolHistory = await schoolDao.getAll();
         let jobHistory = await jobDao.getAll();
+        let entrys = await blogDao.getAll();
         let page = req.params.Page
-        //let blog = require('blog.js');
 
         res.render("admin", {
             schoolHistory:schoolHistory,
             jobHistory:jobHistory,
+            entrys:entrys,
             page:page,
             user:req.session.user
         });
@@ -50,6 +52,10 @@ admin.post("/:Page", async(req,res) => {
             schoolDao.update(body);
         } else if(page === "Home"){
             fs.writeFileSync(process.cwd() + "/public/ejs/home.ejs", body.text);
+        } else if( page === "Blog" && body.id === "" ) {
+            blogDao.insert(body);
+        } else if( page === "Blog"){
+            blogDao.update(body);
         } else {
             //Error
         }

@@ -1,5 +1,5 @@
 <div class="row">
-    <form class="col-sm-6 form">
+    <form class="col-sm-6 form" action="/Admin/Blog" method="POST" id="blogForm">
         <h3>New Entry</h3>
         <label for="title">Title:</label>
         <input type="text" name="title" id="title" class="form-control"/>
@@ -8,11 +8,38 @@
         <input type="text" name="tags" id="tags" class="form-control"/>
 
         <hr />
-        <textarea name="message" class="form-control"></textarea>
+        <textarea name="message" id="message" class="form-control"></textarea>
         <input type="hidden" name="user_id" value="<%= user.id %>" />
-        <input type="hidden" name="id" />
+        <input type="hidden" name="id" id="entryId"/>
+        <input class="btn btn-primary" type="submit" value="Add Entry" id="submitBlog"/>
+        <input class="btn btn-secondary" type="reset" value="Reset" />
     </form>
     <section class="col-sm-6">
-        List all here
+        <% entrys.forEach(entry => {
+            let string = "";
+            if(entry.tags.length > 2)
+                JSON.parse(entry.tags).forEach(tag => string += tag + " ");
+            %>
+            <div class="card col" id="blog<%= entry.id %>">
+                <div class="card-header row">
+                    <div class="col-9">
+                        <h3 class="header title"><%= entry.title %></h3>
+                        <span class="tags"><%= string %></span>
+                    </div>
+                    <div class="col-3">
+                        <button class="editBlog btn btn-success w-100" blogID="<%=entry.id%>">Edit</button>
+                        <button class="deleteBlog btn btn-danger w-100" blogID="<%=entry.id%>">Delete</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <pre class="message"><%= entry.message %></pre>
+                </div>
+                <div class="card-footer">
+                    <span><%= entry.stamp %></span>
+                    <span><%= entry.user %></span>
+                </div>
+            </div>
+
+        <% }) %>
     </section>
 </div>

@@ -11,6 +11,12 @@ window.onload = () => {
     document.querySelectorAll(".editJob")
             .forEach(button => button.addEventListener("click", editJob));
 
+    document.querySelectorAll(".editBlog")
+            .forEach(button => button.addEventListener("click", editBlog));
+
+    document.querySelectorAll(".deleteBlog")
+            .forEach(button => button.addEventListener("click", deleteBlog));
+
     init();
 }
 
@@ -39,6 +45,27 @@ const deleteJob = event => {
     let target = document.querySelector(`#job${id}`);
 
     if( confirm(`Are you sure you want to delete: ${target.querySelector(".location").innerText}`) ) {
+        fetch("/Admin/Job/", {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            body: JSON.stringify({id:id})
+        }).then(responce => {
+            if( !responce.ok )
+                throw new Error(responce.body);
+            else
+                window.location.href = "/Admin/Job";
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
+}
+
+const deleteBlog = event => {
+    let id = event.target.attributes.blogid.nodeValue;
+    let target = document.querySelector(`#blog${id}`);
+
+    if( confirm(`Are you sure you want to delete: ${target.querySelector(".title").innerText}`) ) {
         fetch("/Admin/Job/", {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -100,4 +127,16 @@ const editJob = event => {
     form.querySelector("#description").value = target.querySelector(".description").innerText;
     form.querySelector("#jobId").value = id;
     form.querySelector("#submitJob").value = "Edit Job";
+}
+
+const editBlog = event => {
+    let id = event.target.attributes.blogid.nodeValue;
+    let target = document.querySelector(`#blog${id}`);
+    let form = document.querySelector("#blogForm");
+
+    form.querySelector("#title").value = target.querySelector(".title").innerText;
+    form.querySelector("#tags").value = target.querySelector(".tags").innerText;
+    form.querySelector("#message").innerText = target.querySelector(".message").innerText;
+    form.querySelector("#entryId").value = id;
+    form.querySelector("#submitBlog").value = "Edit Entry";
 }
