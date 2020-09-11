@@ -62,7 +62,7 @@
             <%- include("admin/home.ejs") %>
         </div>
         <div class="tab-pane container <%=bT%>" id="blog">
-            <%- include("admin/blog.ejs") %>
+            <%- include("admin/blog.ejs", {entrys:entrys}) %>
         </div>
     </div>
 </main>
